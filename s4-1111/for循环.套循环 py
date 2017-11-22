@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+# Author:summer_han
+for i in range(0,10):
+    print("------",i)
+    for k in range(0,10):
+        print(k)
+        if k > 5:
+            break
+#continue 跳出本次循环，进行下次循环
+#break 结束整个循环

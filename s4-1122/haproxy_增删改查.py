@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 # Author:summer_han
+
+"""
 #实现简单 sed 替换功能
 #查
 #新建
@@ -18,7 +20,7 @@ arg= {
 }
 print(arg)
 #字符串转换字典
-'''
+
 b = {
     'backend':'www.oldboy.org',
     'record':{
@@ -27,10 +29,10 @@ b = {
         'maxconn':3000
     }
 
-}'''
+}
 
 #删除
-b = '''{
+#b = '''{
     'backend':'www.oldboy.org',
     'record':{
         'server':'100.1.7.9',
@@ -42,6 +44,4 @@ b = '''{
 b=eval(b) #字符串转换成字典
 
 print(b['record'])
-
-
-
+"""

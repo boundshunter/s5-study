@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 #coding=utf-8
 db = {}
-
+#db.get(name)
 def newuser():
     prompt = 'login desired: '
     while True:
@@ -46,6 +46,5 @@ Enter choice: """
         if choice == 'n':newuser()
         if choice == 'e':olduser()
 
-if __name__ == '__main__':
+if __name__ == '__main__':  #入口方法 固定的 入口规范
     showmenu()
-

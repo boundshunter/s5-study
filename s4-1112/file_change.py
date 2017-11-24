@@ -32,6 +32,7 @@ with open("log1") as obj_1, open("log2") as obj2:
     pass
 '''
 with open("yesterday2",'r',encoding="utf-8") as f:
+
     for line in f:
         print(line)
 执行完后，自动close()

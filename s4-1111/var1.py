@@ -16,3 +16,4 @@ Salary:''' + salary + '''
 '''
 print(info)
 
+1

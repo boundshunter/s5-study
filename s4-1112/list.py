@@ -52,7 +52,7 @@ print(names.count("father"))
 names.sort() #列表排序 特殊符号在最前，然后数字，然后大写，然后小写，按照ascii顺序排序的
 
 names2=[1,2,3,4]
-names.extend(names2) #把names2表合并过阿里，names2还存在
+names.extend(names2) #把names2表合并过来，names2还存在
 
 print(names,names2)
 

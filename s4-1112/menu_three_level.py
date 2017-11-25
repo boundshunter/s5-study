@@ -57,4 +57,3 @@ while not exit_flag:
                     break
             elif choice2 == 'q':
                     exit_flat = True
-集合

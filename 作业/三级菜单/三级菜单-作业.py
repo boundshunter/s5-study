@@ -39,7 +39,7 @@ while True:
     for index1,key1 in enumerate(menu.keys(),1):
         print(index1,key1)
         menu_temp[index1] = key1
-    #print(type(menu_temp.keys()))
+    print(menu_temp)
 
     choice1 = input("LEVEL_1,输入'b'返回，输入'q'退出--->:")
     for L1 in menu_temp.keys():

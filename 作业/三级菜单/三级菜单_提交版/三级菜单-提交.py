@@ -20,27 +20,23 @@ menu = {
     }
 }
 exit_flag = True
-menu_temp = []
 while exit_flag:
     print("欢迎访问大学查询系统".center(80,'*'))
 
-    # for key in menu:
-    #     print(key,menu[key])
     for index,key in enumerate(menu):
-        print(' '.join(['[',str(index),']',key]))
-    #     menu_temp = menu.pop(key)
-    # print(menu_temp)
-    choice = input("请输入您的选择编号:")
-    if choice.isdigit():
-        choice = int(choice)
-        while exit_flag:
-            if choice >= 0 and choice < len(menu):
-                menu=menu[key]
-                print(menu)
-    #             for index1,key1 in enumerate(menu.keys()):
-    #
-    #                 #print(' '.join(['\t','[',str(index1),']',key1]))
-    #                 print(index1,key1)
-    #                 i=input("--->")
-    # else:
-    #     pass
+        #print(' '.join(['[',str(index),']',key]))
+        print(index,key)
+
+    # print(len(menu))
+
+    choice1 = input("请输入您的选择编号:")
+    if choice1.isdigit():
+        choice1 = int(choice1)
+        if choice1 >= 0 and choice1 < len(menu):
+            # pass
+            menu1 = menu.pop(key)
+            print(menu1)
+    else:
+        exit_flat = False
+
+

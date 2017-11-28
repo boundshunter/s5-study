@@ -38,11 +38,36 @@ import sys
 #     file_str = str(f)    # 将每行信息转成字符串格式
 # menu = eval(file_str)    # 字符串转成字典格式
 
+while True:
+    for i in menu:
+        print(i)
+    choice1 = input("请输入选择,按q退出:")
+    for i2 in menu[choice1]:
+        print(i2)
+        choice2 = input("请输入选择，按q退出，按b返回上一级")
+        while True:
+            if choice2 in menu[choice1]:
+                for i3 in menu[choice1][choice2]:
+                    print(i3)
 
+                    choice3 = input("请输入选择，按q退出，按b返回上一级")
+                    while True:
+                        if choice3 in menu[choice1][choice2]:
+                            for i4 in menu[choice1][choice2][choice3]:
+                                print(i4)
+
+
+            elif i2 == 'b':
+                print("已经是最上层，无法返回，请选择省份！")
+            elif i2 == 'q':
+                print("退出程序")
+            else:
+                print("输入错误，请重新输入")
+
+'''
 def list():    # 定义读取字典中的key
     for i in menu:
         print(i)
-
 
 def choose1(choice1):    # 定义第一层选择
     while choice1 != 'q':    # 输入为q即退出程序
@@ -123,3 +148,5 @@ def choose4(choice4):   # 定义最后退出
 print("退出请按'q'，返回上级菜单请按'b'")    # 声明功能
 list()  # 调用list函数展示第一层信息
 choose1(input("请输入第一层："))   # 主程序，开始运行
+
+'''

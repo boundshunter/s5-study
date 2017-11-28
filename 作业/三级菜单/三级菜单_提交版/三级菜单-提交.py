@@ -24,10 +24,7 @@ while exit_flag:
     print("欢迎访问大学查询系统".center(80,'*'))
 
     for index,key in enumerate(menu):
-        #print(' '.join(['[',str(index),']',key]))
         print(index,key)
-
-    # print(len(menu))
 
     choice1 = input("请输入您的选择编号:")
     if choice1.isdigit():

@@ -30,17 +30,19 @@ def exist_user(username):
     user_info_file = os.path.join(DB_DIR,username)
     #print(user_info_file)
     if os.path.exists(user_info_file):
-        print("存在")
+        print("用户存在")
         return True
     else:
-        print("不存在")
+        print("用户不存在")
         return False
 exist_user('jfsu')
+
+
 # def load_user_info(username):  # 加载用户信息
 #     user_file = os.path.join(DB_DIR,username)
 #     with open(user_file,'r') as f:
 #         data = f.read()
-#     user_clas = type(eval(data))   # f.read()输出为字符串，转化为字典 eval
+#     user_clas = eval(data)   # f.read()输出为字符串，转化为字典 eval
 #     return user_clas
 # load_user_info('jfsu')
 

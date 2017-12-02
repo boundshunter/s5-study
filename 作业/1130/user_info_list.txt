@@ -1,0 +1,1 @@
+{'jfsu': {'password': 'abc123!', 'salary': 30000}, 'mmm': {'password': '123123', 'salary': 50000}, 'hanhan': {'password': 'abc123', 'salary': 111111}}

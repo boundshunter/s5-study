@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 # Author:summer_han
-'''
+
 product_list=[
     ("Iphone X",8999),
     ("Mac pro",17999),
@@ -45,6 +45,6 @@ if salary.isdigit():
 
         else:
             print("Invalid option.")
-'''
+
 c = dict.fromkeys(['5','test1'],['6','test2'])
 print(c)

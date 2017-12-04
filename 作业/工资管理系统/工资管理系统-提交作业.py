@@ -60,53 +60,35 @@ def login(): # 定义主体函数
                     select_staff_info(username)
                     print("\r")
                     login()
-                    continue
+                    # continue
                 else:
                     print("您的用户名输入错误，请重新输入:")
                     continue
-        elif choice == '2':
+        if choice == '2':
+            username,salary = input("请输入要修改的员工姓名和工资，用空格分隔(例如：Alex 10) : ").split()
             while True:
-                count = input("请输入要修改的员工姓名和工资，用空格分隔(例如：Alex 10) : ").split()
-                if len(count) == 2:
-                    #username,salary = input("请输入要修改的员工姓名和工资，用空格分隔(例如：Alex 10) : ").split()
-                    username = count[0]
-                    salary = count[1]
-                    if username in info:
-                        alter_staff_info(username,salary)
-                        print("\r")
-                        login()
-                    else:
-                        print("您的用户不存在，重新输入！")
-                        continue
+                if username in info:
+                    alter_staff_info(username,salary)
+                    print("\r")
+                    login()
                 else:
-                    print("您输入的参数不对，请重新输入!")
-                    continue
+                    print("您的用户不存在，请重新输入")
+                    break
 
-        elif choice == '3':
+        if choice == '3':
+            username,salary = input("请输入要增加的员工姓名，工资，用空格分隔符(例如：Eric 100000) ：").split()
             while True:
-                input_args = input("请输入要增加的员工姓名，工资，用空格分隔符(例如：Eric 100000) :").split()
-                if len(input_args) == 2:
-                    username = input_args[0]
-                    salary = input_args[1]
-                    # print(username)
-                    # print(salary)
-                    if username not in info:
-                        add_staff_info(username,salary)
-                        login()
-                    else:
-                        print("您输入的用户存在，请使用其他用户名!")
-                        continue
+                if username not in info:  # 判断用户是否存在 用户不存在 则增加用户和工资信息写入文件
+                    add_staff_info(username,salary)
+                    login()
                 else:
-                    print("您输入参数个数有误，请重新输入！")
+                    print("您的用户已经存在,请重新输入信息." )
                     continue
-        elif choice == '4':
+                #login()
+        if choice == '4':
             exit_system()
 
-        else:
-            print("您的选择有误，请重新选择")
-            login()
-
-if __name__ == '__main__':
+if __name__ == '__main__': 
     login()
 
 

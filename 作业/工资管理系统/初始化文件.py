@@ -13,5 +13,4 @@ salary_list = {
 with open('user_info.txt','r') as f:
     a = eval(f.read())
 
-a.setdefault('Tom','30000')
-print(a)
+

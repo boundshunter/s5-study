@@ -2,12 +2,10 @@
 #-*- coding:utf-8 -*-
 # Author:苏俊峰
 
-#1、模拟登录
-#2、用户输入账户，密码
-#3、用户密码输入错误，三次后锁定
-
-#4、没有的用户可以注册，加入字典,写入文件
-'''
+# 1、模拟登录
+# 2、用户输入账户，密码
+# 3、用户密码输入错误，三次后锁定
+import sys
 f=open("u_dict.txt",'r')
 user_info=f.read()
 f.close()
@@ -39,13 +37,16 @@ def login():
                 pwd=input("登录密码--->:")
                 password=user_dict.get(name)
                 if pwd == password: #判断密码是否正确
-                    print("welcome back,dear %s" % name)
-                    done = True #密码正确，退出
+                    print("欢迎登陆，亲爱的--%s--" % name)
+                    done = True
                 else: #密码不正确
                     count=0 #初始化 输入次数
                     while count<2: #当次数 在3次以内，从0开始计数
                         print("密码错了，请重新输入，还可以尝试 %s 次" % (3 - count))
                         pwd=input("password--->:")
+                        if pwd == password: #判断密码是否正确
+                            print("欢迎登陆，亲爱的 %s" % name)
+                            sys.exit()
                         count+=1 #循环 次数 +1
                         if count >= 2:  #次数大于3次
                             lock_list.append(name) # 用户加入锁定列表
@@ -80,15 +81,3 @@ def login():
         exit
 if __name__ == '__main__':
     login()
-'''
-
-u_info=open("u_dict.txt",'r')
-u_get=u_info.read()
-u_info.close()
-u_list=u_get.split()
-print(u_list)
-list.append(register_name,register_pwd)
-f1=open('u_dict.txt','w')
-if i in list:
-    f1.write(i)
-f1.close()

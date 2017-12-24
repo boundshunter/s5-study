@@ -1,0 +1,28 @@
+用于序列化的两个模块
+
+json，用于字符串 和 python数据类型间进行转换
+
+pickle，用于python特有的类型 和 python的数据类型间进行转换
+
+Json模块提供了四个功能：dumps、dump、loads、load
+
+pickle模块提供了四个功能：dumps、dump、loads、load
+json 用于各平台交互，但是只能进行简单的  dump
+
+pickle只能用于python内部，但是可以进行复杂数据的dump和load
+
+import pickle
+data={'k1':123,'k2':'hello'}
+
+p_str = pickle.dumps(data)
+print p_str
+
+with open ('D:/result.pk','w') as fp:
+    pickle.dump(data.fp)
+
+import json
+j_str = json.dumps(data)
+print j_str
+
+with open('D:/result.json','w') as fp:
+    json.dump(data,fp)

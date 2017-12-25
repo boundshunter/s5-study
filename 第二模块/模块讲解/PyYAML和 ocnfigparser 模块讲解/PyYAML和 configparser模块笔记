@@ -1,0 +1,21 @@
+pyYAML 处理配置文件使用
+http://pyyaml.org/wiki/PyYAMLDocumentation
+标准配置文件，比如ansible 等
+非标准库，需要安装
+
+configparser 模块
+
+例如mysql 配置文件，就是标准的confiparser配置文件
+
+[DEFAULT]
+ServerAliveInterval = 45
+Compression = yes
+CompressionLevel = 9
+ForwardX11 = yes
+
+[bitbucket.org]
+User = hg
+
+[topsecret.server.com]
+Port = 50022
+ForwardX11 = no

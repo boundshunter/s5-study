@@ -1,0 +1,99 @@
+DEBUG:root:123
+INFO:root:456
+WARNING:root:User °æjfsu°ø attempt wrong password 3 times
+ERROR:root:error msg
+CRITICAL:root:server is down
+DEBUG:root:123
+INFO:root:456
+WARNING:root:b'User \xe3\x80\x90jfsu\xe3\x80\x91 attempt wrong password 3 times'
+ERROR:root:error msg
+CRITICAL:root:server is down
+DEBUG:root:123
+INFO:root:456
+WARNING:root:b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times'
+ERROR:root:error msg
+CRITICAL:root:server is down
+DEBUG:root:123
+INFO:root:456
+WARNING:root:User [À’ø°∑Â] attempt wrong password 3 times
+ERROR:root:error msg
+CRITICAL:root:server is down
+DEBUG:root:123
+INFO:root:456
+WARNING:root:b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times'
+ERROR:root:error msg
+CRITICAL:root:server is down
+ERROR:root:error msg
+CRITICAL:root:server is down
+ERROR:root:error msg
+CRITICAL:root:server is down
+ERROR:root:error msg
+CRITICAL:root:server is down
+ERROR:root:error msg
+CRITICAL:root:server is down
+ERROR:root:error msg
+CRITICAL:root:server is down
+ERROR:root:error msg
+CRITICAL:root:server is down
+ERROR:root:error msg
+CRITICAL:root:server is down
+WARNING:root:b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times'
+ERROR:root:error msg
+CRITICAL:root:server is down
+WARNING:root:b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times'
+ERROR:root:error msg
+CRITICAL:root:server is down
+WARNING:root:b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times'
+ERROR:root:error msg
+CRITICAL:root:server is down
+2017-44-12/25/17 14:44:52b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times'
+2017-44-12/25/17 14:44:52error msg
+2017-44-12/25/17 14:44:52server is down
+2017-44-12/25/17 14:44:53b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times'
+2017-44-12/25/17 14:44:53error msg
+2017-44-12/25/17 14:44:53server is down
+2017-44-12/25/17 14:44:53b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times'
+2017-44-12/25/17 14:44:53error msg
+2017-44-12/25/17 14:44:53server is down
+2017-44-12/25/17 14:44:53b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times'
+2017-44-12/25/17 14:44:53error msg
+2017-44-12/25/17 14:44:53server is down
+2017-45-12/25/17 14:45:17b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-45-12/25/17 14:45:17error msg 
+2017-45-12/25/17 14:45:17server is down 
+2017-45-12/25/17 14:45:17b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-45-12/25/17 14:45:17error msg 
+2017-45-12/25/17 14:45:17server is down 
+2017-45-12/25/17 14:45:17b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-45-12/25/17 14:45:17error msg 
+2017-45-12/25/17 14:45:17server is down 
+2017-45-12/25/17 14:45:18b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-45-12/25/17 14:45:18error msg 
+2017-45-12/25/17 14:45:18server is down 
+2017-45-12/25/17 14:45:18b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-45-12/25/17 14:45:18error msg 
+2017-45-12/25/17 14:45:18server is down 
+2017-12-25 14:45:39b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-12-25 14:45:39error msg 
+2017-12-25 14:45:39server is down 
+2017-12-25 14:45:39b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-12-25 14:45:39error msg 
+2017-12-25 14:45:39server is down 
+2017-12-25 14:45:39b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-12-25 14:45:39error msg 
+2017-12-25 14:45:39server is down 
+2017-12-25 14:46:48b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-12-25 14:46:48error msg 
+2017-12-25 14:46:48server is down 
+2017-12-25 14:49:42b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-12-25 14:49:42error msg 
+2017-12-25 14:49:42server is down 
+2017-12-25 14:49:43b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-12-25 14:49:43error msg 
+2017-12-25 14:49:43server is down 
+2017-12-25 14:49:44b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-12-25 14:49:44error msg 
+2017-12-25 14:49:44server is down 
+2017-12-25 14:49:44b'User [\xe8\x8b\x8f\xe4\xbf\x8a\xe5\xb3\xb0] attempt wrong password 3 times' 
+2017-12-25 14:49:44error msg 
+2017-12-25 14:49:44server is down 

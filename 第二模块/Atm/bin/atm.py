@@ -4,7 +4,7 @@
 
 import os
 import sys
-# print(__file__)  # 其实返回的是相对路径，如果在linux下执行会方向
+# print(__file__)  # 其实返回的是相对路径，如果在linux下执行会发现
 #返回绝对路径的方法
 print(os.path.abspath(__file__))  # 返回绝对路径方法
 

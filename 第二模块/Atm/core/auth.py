@@ -15,6 +15,7 @@ import datetime
 #
 from core import db_handler
 from conf import settings
+from core import accounts
 
 
 def acc_auth(account,password):
@@ -81,35 +82,51 @@ def acc_login(user_data,log_obj):
 
 
 def sign_up():
-    pay_day = 22
+
     exist_flag = True
     while exist_flag is True:
         account = input("请输入用户ID:".strip())
         password =input("请输入密码:".strip())
         user_exist = check_account(account)
 
-        if user_exist: # not None
+        if user_exist:  # not None
             print("用户[%s]已存在，请输入其他用户ID" % account)
             exit_flag = True
             # continue
         else:
+            curr_day = datetime.datetime.now().strftime("%Y-%m-%d")
             yesterday = datetime.datetime.now() + datetime.timedelta(days=-1)  # 昨天日期
-            after_3_years_day = yesterday.replace(year=(int(yesterday.strftime("%Y")) + 3)) #三年后的昨天
-            expire_day = after_3_years_day.strftime('%Y-%m-%d') #过期日期
+            after_3_years_day = yesterday.replace(year=(int(yesterday.strftime("%Y")) + 3))  # 三年后的昨天
+            expire_day = after_3_years_day.strftime('%Y-%m-%d')   # 过期日期
+            pay_day = 22
 
-        print(enroll_day)
-        data_exp = {'enroll_date': enroll_day,
-                    'password': account,
-                    'id': password,
-                    'credit': 15000,
-                    'status': 8,
-                    'balance': 0.0,
-                    'expire_date': '3000-01-01',
-                    'pay_day': 0
-    }
+            account_data = {
+                        'enroll_date': curr_day,
+                        'password': password,
+                        'id': account,
+                        'credit': 15000,
+                        'status': 0,
+                        'balance': 0.0,
+                        'expire_date': expire_day,
+                        'pay_day': pay_day
+             }
+            accounts.dump_account(account_data)
+            print("\033[32;1m账户 [%s] 创建成功，\033[0m" % account)
+            print("账户信息:", account_data)
+            return True  # 跳出当前循环
 
 def account_info():
-    pass
+
+    acc_exist = True
+    while acc_exist:
+        account = input("账户ID>>>:".strip())
+        acc_exist = check_account(account)  # True  return account_data
+
+        if acc_exist:  # not None    is  account_data
+            print(acc_exist)
+
+
+
 
 def account_modify():
     pass
@@ -118,3 +135,20 @@ def check_account(account):
     db_path = db_handler.db_handler(settings.DATABASE)
     account_file = "%s/%s.json" % (db_path, account)
 
+    if os.path.isfile(account_file):
+        with open(account_file,'r') as f:
+            account_data = json.load(f)
+            status = account_data['status']
+            if status == 8:
+                print("permission deny,this is a admin user.")
+                return False
+
+            exp_time_stamp = datetime.datetime.strptime(account_data['expire_day'],"%Y-%m-%d")
+            curr_time = datetime.datetime.now()
+            if  curr_time > exp_time_stamp:
+                print("The account [%s] has been expired!" % account)
+                return False
+            else:
+                return account_data
+    else:
+        return False

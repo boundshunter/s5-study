@@ -80,20 +80,33 @@ def acc_login(user_data,log_obj):
 
 
 
-def sign_up(account,password):
-    # account =
-    # password =
-    enroll_day =
-    print(enroll_day)
-    data_exp = {'enroll_date': enroll_day,
-                'password': account,
-                'id': password,
-                'credit': 15000,
-                'status': 8,
-                'balance': 0.0,
-                'expire_date': '3000-01-01',
-                'pay_day': 0
-}
+def sign_up():
+    pay_day = 22
+    exist_flag = True
+    while exist_flag is True:
+        account = input("请输入用户ID:".strip())
+        password =input("请输入密码:".strip())
+        user_exist = check_account(account)
+
+        if user_exist: # not None
+            print("用户[%s]已存在，请输入其他用户ID" % account)
+            exit_flag = True
+            # continue
+        else:
+            yesterday = datetime.datetime.now() + datetime.timedelta(days=-1)  # 昨天日期
+            after_3_years_day = yesterday.replace(year=(int(yesterday.strftime("%Y")) + 3)) #三年后的昨天
+            expire_day = after_3_years_day.strftime('%Y-%m-%d') #过期日期
+
+        print(enroll_day)
+        data_exp = {'enroll_date': enroll_day,
+                    'password': account,
+                    'id': password,
+                    'credit': 15000,
+                    'status': 8,
+                    'balance': 0.0,
+                    'expire_date': '3000-01-01',
+                    'pay_day': 0
+    }
 
 def account_info():
     pass
@@ -101,4 +114,7 @@ def account_info():
 def account_modify():
     pass
 
-sign_up('abc','abc')
+def check_account(account):
+    db_path = db_handler.db_handler(settings.DATABASE)
+    account_file = "%s/%s.json" % (db_path, account)
+

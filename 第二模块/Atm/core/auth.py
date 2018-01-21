@@ -3,8 +3,10 @@
 # Author:summer_han
 
 import os
-import sys
 
+import sys
+BASE_DIR = os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
+sys.path.append(BASE_DIR)
 import json
 import datetime
 
@@ -18,12 +20,12 @@ from conf import settings
 def acc_auth(account,password):
     db_path = db_handler.db_handler(settings.DATABASE)  # settings.DATABASE = conn_parms
     account_file = "%s/%s.json" % (db_path, account)
-    print(db_path)
-    print(account_file)
+    # print(db_path)
+    # print(account_file)
     if os.path.isfile(account_file):
         with open(account_file,'r') as f:
             account_data = json.load(f)
-            print(account_data)
+            # print(account_data)
 
         if account_data['password'] == password:
 
@@ -55,12 +57,48 @@ def acc_login(user_data,log_obj):
     account = input('请输入账户ID:'.strip())
     password = input('请输入密码:'.strip())
 
-    auth = acc_auth(account,password)  # 返回 account_data
-    return auth
-    # while True:
-    #
-    #     if auth:  # auth not None
-    #         user_data['is_authoirzed'] = True
-    #         user_data['account_id'] = accounts   # 初始化 user_data  到 输入账户id
-    #
-    #         return auth
+    retry_count = 0
+    exit_count = 3
+    same_count = 0
+
+    while user_data['is_authorized'] is False and retry_count < exit_count:
+        auth = acc_auth(account,password)  # 返回 account_data  登录验证：验证用户，密码，状态，是否过期
+
+        if auth:  # 如果非空
+            user_data['is_authorized'] = True
+            user_data['account_id'] = account
+
+            return auth
+
+        retry_count += 1
+
+    else:
+        same_count += 1
+        if same_count == 3:
+            log_obj.error("accounts [%s] too many login attempts" % account)
+            exit()
+
+
+
+def sign_up(account,password):
+    # account =
+    # password =
+    enroll_day =
+    print(enroll_day)
+    data_exp = {'enroll_date': enroll_day,
+                'password': account,
+                'id': password,
+                'credit': 15000,
+                'status': 8,
+                'balance': 0.0,
+                'expire_date': '3000-01-01',
+                'pay_day': 0
+}
+
+def account_info():
+    pass
+
+def account_modify():
+    pass
+
+sign_up('abc','abc')

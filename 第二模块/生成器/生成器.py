@@ -165,6 +165,7 @@ def fib(max):
 
 g=fib(5)
 
+
 while True:
     try:
         x=next(g)

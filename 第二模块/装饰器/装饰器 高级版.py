@@ -13,6 +13,7 @@ def auth(auth_type):
                 if user == username and  passwd == password:
                     print('\033[31;1mPass\033[0m')
                     res =  func(*args,**kwargs)  # from home
+                    print(res)
                     return res
                 else:
                     exit('\033[42;1m Invild username or password\033[0m')

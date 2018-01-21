@@ -24,7 +24,7 @@
 # 高阶函数 +  嵌套函数 -》 装饰器
 
 
-# 全局作用于和局部作用域
+# 全局作用域和局部作用域
 x = 0
 def grandpa():
     #x=1
@@ -52,36 +52,42 @@ x=1    test 相当于 x
 '''
 #高阶函数
 import  time
-# def test(func):
-#     #print(func)  #调用把 func = bar    test(bar)调用
-#     start_time = time.time()
-#     func()
-#     stop_time = time.time()
-#     print('run time is %s'%(stop_time-start_time))
-# def bar():
-#     time.sleep(3)
-#     print('in the bar')
-# test(bar)  #相当于 func = bar   func(） = bar()
-#调用方式变化了，之前调用方式 bar()
-#下面解决 不修改调用方式
-
 def test(func):
-    print(func)
-    return func
+    #print(func)  #调用把 func = bar    test(bar)调用
+    start_time = time.time()
+    func()
+    stop_time = time.time()
+    print('run time is %s'%(stop_time-start_time))
+    # return func
 
 @test
 def bar():
     time.sleep(3)
     print('in the bar')
 
+# test(bar)
 
+bar()
+# test(bar)  #相当于 func = bar   func(） = bar()
+#调用方式变化了，之前调用方式 bar()
+#下面解决 不修改调用方式
 
-# t= test(bar)
-# #print(t)
-# t()  # t = bar
-
-# bar = test(bar)  #  等于 @test
-
-bar()  # 不改变调用方式
+# def test(func):
+#     print(func)
+#     return func
+#
+# @test
+# def bar():
+#     time.sleep(3)
+#     print('in the bar')
+#
+#
+# # t= test(bar)
+# # #print(t)
+# # t()  # t = bar
+#
+# # bar = test(bar)  #  等于 @test
+#
+# bar()  # 不改变调用方式
 
 

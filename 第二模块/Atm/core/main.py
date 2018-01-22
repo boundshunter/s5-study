@@ -32,7 +32,7 @@ def manager_controll():
 
     :return:
     '''
-    menu = '''
+    menu = u'''
     -----------管理员 选项------------
     1、添加用户
     2、查询用户信息
@@ -49,12 +49,17 @@ def manager_controll():
     }
     go_flag = True
     while go_flag:
-        print(menu)
+        print("\033[33;1m%s\033[0m]" % menu )
         user_choice = input(">>>>:")
 
         if user_choice in menu_dict:
             # print(menu_dict[user_choice])
             eval(menu_dict[user_choice])
+            go_flag = False
+        else:
+            print("\033[31;1m您输入的选项有误，请重新输入\033[0m")
+            continue
+
 
 def exit_flag():
     print("----退出当前管理员[%s]----"%user_data['account_id'])
@@ -77,7 +82,7 @@ def login():
 def manager_run():
     print("\033[31;1m ATM管理员菜单 \033[0m".center(50,'#'))
     user_data = get_user_data()
-    print(user_data)
+    # print(user_data)
     manager_controll()
 
 

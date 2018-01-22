@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 sys.path.append(BASE_DIR)
 import json
 import datetime
-
+import hashlib
 # db_dir = os.path.dirname( os.path.dirname( os.path.abspath(__file__)))
 # sys.path.append(db_dir)
 #
@@ -116,22 +116,47 @@ def sign_up():
             return True  # 跳出当前循环
 
 def account_info():
-
-    acc_exist = True
-    while acc_exist:
+    '''
+    :return:
+    '''
+    while True:
         account = input("账户ID>>>:".strip())
-        acc_exist = check_account(account)  # True  return account_data
+        account_data = check_account(account)  # True  return account_data
+        # print(account_data)
+        if account_data:  # not None    is  account_data
+            # print(account_data)
+            display_account_info(account_data)
 
-        if acc_exist:  # not None    is  account_data
-            print(acc_exist)
+        else:
+            print("您查询的账户[%s] 不存在" % account)
 
 
+def display_account_info(account_data):
+    '''
+    :param account_data:
+    :return True:
+    '''
+    account_data['password']=get_md5(account_data['password'].encode("utf-8")) # 密码加密
+    for k in account_data:
+        print("{:<20}:\033[32;1m{:<20}\033[0m".format(k,account_data[k]))
+    return True
+
+def get_md5(password):
+    # 获取 md5
+    md5 = hashlib.md5()
+    md5.update(password)
+    return md5.hexdigest()
 
 
 def account_modify():
     pass
 
 def check_account(account):
+    '''
+
+    :param account:
+    :return:
+    '''
     db_path = db_handler.db_handler(settings.DATABASE)
     account_file = "%s/%s.json" % (db_path, account)
 
@@ -143,7 +168,7 @@ def check_account(account):
                 print("permission deny,this is a admin user.")
                 return False
 
-            exp_time_stamp = datetime.datetime.strptime(account_data['expire_day'],"%Y-%m-%d")
+            exp_time_stamp = datetime.datetime.strptime(account_data['expire_date'],"%Y-%m-%d")
             curr_time = datetime.datetime.now()
             if  curr_time > exp_time_stamp:
                 print("The account [%s] has been expired!" % account)
@@ -152,3 +177,5 @@ def check_account(account):
                 return account_data
     else:
         return False
+
+

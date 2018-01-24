@@ -17,8 +17,13 @@ from core import db_handler
 from conf import settings
 from core import accounts
 
-
 def acc_auth(account,password):
+    '''
+    用户认证（根据用户输入账户，密码）
+    :param account:
+    :param password:
+    :return: account_data
+    '''
     db_path = db_handler.db_handler(settings.DATABASE)  # settings.DATABASE = conn_parms
     account_file = "%s/%s.json" % (db_path, account)
     # print(db_path)
@@ -55,6 +60,12 @@ def acc_auth(account,password):
 
 
 def acc_login(user_data,log_obj):
+    '''
+
+    :param user_data:
+    :param log_obj:
+    :return: auth  =  account_data
+    '''
     account = input('请输入账户ID:'.strip())
     password = input('请输入密码:'.strip())
 
@@ -68,9 +79,9 @@ def acc_login(user_data,log_obj):
         if auth:  # 如果非空
             user_data['is_authorized'] = True
             user_data['account_id'] = account
-
+            # account_data = auth
             return auth
-
+            # return account_data
         retry_count += 1
 
     else:
@@ -126,10 +137,11 @@ def account_info():
         if account_data:  # not None    is  account_data
             # print(account_data)
             display_account_info(account_data)
-
+            return True
         else:
             print("您查询的账户[%s] 不存在" % account)
-
+            return True
+    # return True
 
 def display_account_info(account_data):
     '''
@@ -149,13 +161,44 @@ def get_md5(password):
 
 
 def account_modify():
-    pass
+    '''
+    修改账户信息
+    :return:
+    '''
+    retry_count = 0
+    items = ['enroll_date','password','id','credit','status','balance','expire_date','pay_day']
+    while True:
+        account = input("输入要修改的账户ID>>>:")
+        acc_data = check_account(account)   # if True  return  account_data dict
+        db_path = db_handler.db_handler(settings.DATABASE)  # settings.DATABASE = conn_parms
+        account_file = "%s/%s.json" % (db_path, account)
+        if acc_data:  # Not None
+            display_account_info(acc_data)
+            # print(type(acc_data))
+            while True:
+                input_item = input("请选择您要修改的项目>>>:")
+                input_value = input("请输入您要修改的值>>>:")
+                acc_data[input_item] = input_value
+                account_data = acc_data
+                print("\033[31;1m您已将账户ID为[%s] 中项目 [%s] 值修改为 [%s] !\033[0m" % (account,input_item,input_value))
+
+                accounts.dump_account(account_data)  # 修改数据写回用户ID数据文件
+            #     with open(account_file,'w') as f:
+            #         json.dump(acc_data,f)
+            #
+            #     return True
+            # return True
+                return True
+        else:
+            print("您要修改的用户 [%s] 不存在！" % account)
+            return True
+
 
 def check_account(account):
     '''
-
-    :param account:
-    :return:
+    检查用户是否存在
+    :param account:用户ID
+    :return: account_data
     '''
     db_path = db_handler.db_handler(settings.DATABASE)
     account_file = "%s/%s.json" % (db_path, account)
@@ -165,13 +208,13 @@ def check_account(account):
             account_data = json.load(f)
             status = account_data['status']
             if status == 8:
-                print("permission deny,this is a admin user.")
+                print("权限不足，账户为管理员.")
                 return False
 
             exp_time_stamp = datetime.datetime.strptime(account_data['expire_date'],"%Y-%m-%d")
             curr_time = datetime.datetime.now()
             if  curr_time > exp_time_stamp:
-                print("The account [%s] has been expired!" % account)
+                print("账户 [%s] 已过期!" % account)
                 return False
             else:
                 return account_data

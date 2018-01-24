@@ -7,8 +7,10 @@
 # BASE_DIR = os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 # sys.path.append(BASE_DIR)
 # from auth import acc_login
+import datetime
 from core import logger
 from core import auth
+
 
 access_logger=logger.logger('access')
 
@@ -54,8 +56,8 @@ def manager_controll():
 
         if user_choice in menu_dict:
             # print(menu_dict[user_choice])
-            eval(menu_dict[user_choice])
-            go_flag = False
+            go_flag = eval(menu_dict[user_choice])
+
         else:
             print("\033[31;1m您输入的选项有误，请重新输入\033[0m")
             continue
@@ -64,6 +66,9 @@ def manager_controll():
 def exit_flag():
     print("----退出当前管理员[%s]----"%user_data['account_id'])
     exit()
+
+def get_user_bill(account_id):
+    curr_day = datetime.datetime.now()
 
 
 def get_all_bills():
@@ -86,4 +91,3 @@ def manager_run():
     manager_controll()
 
 
-# manager_controll()

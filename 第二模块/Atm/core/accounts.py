@@ -5,7 +5,7 @@ from conf import settings
 
 def dump_account(account_data):
     '''
-
+    数据 dump 入指定路径文件，文件名为账户ID
     :param account_data:
     :return:
     '''

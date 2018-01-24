@@ -13,7 +13,11 @@ DATABASE = {
     'path': "%s/db" % BASE_DIR
 }
 
-# print(DATABASE)
+LOG_DATABASE = {
+    'engine': 'file_storage',  # support mysql,postgresql in the future
+    'name': 'accounts',
+    'path': "%s/log" % BASE_DIR
+}
 
 LOG_LEVEL = logging.INFO
 

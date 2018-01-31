@@ -75,7 +75,7 @@ def acc_login(user_data,log_obj):
 
     while user_data['is_authorized'] is False and retry_count < exit_count:
         auth = acc_auth(account,password)  # 返回 account_data  登录验证：验证用户，密码，状态，是否过期
-
+        print("auth:",auth)
         if auth:  # 如果非空
             user_data['is_authorized'] = True
             user_data['account_id'] = account
@@ -128,6 +128,7 @@ def sign_up():
 
 def account_info():
     '''
+    用户信息
     :return:
     '''
     while True:
@@ -142,6 +143,9 @@ def account_info():
             print("您查询的账户[%s] 不存在" % account)
             return True
     # return True
+
+def get_user_info(acc_data):
+    pass
 
 def display_account_info(account_data):
     '''

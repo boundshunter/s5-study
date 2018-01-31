@@ -22,16 +22,79 @@ user_data = {
 
 def get_user_data():
     account_data = auth.acc_login(user_data,access_logger)
-
+    print("acc_da",account_data)
     if user_data['is_authorized']:
         user_data['account_data'] = account_data
         return user_data
     else:
         return None
 
-def manager_controll():
-    '''
+def repay(acc_data):
+    pass
 
+def withdraw(acc_data):
+    pass
+
+def transfer(acc_data):
+    pass
+
+def save(acc_data):
+    pass
+
+def pay_bills(acc_data):
+    pass
+
+def interactive(acc_data):
+    '''
+    用户数据交互
+    :param user_data: 用户数据字典
+    :return:
+    '''
+    user_state = acc_data['status']
+    if user_state == 8:
+        exit("\033[31;1m 账户 [%s] 为管理员,请使用管理员登录入口! \033[0m"
+             % (acc_data['id']) )
+    menu = u'''
+    ------爱存不存 BANK-------\033[32;1m
+    1、账户信息
+    2、还款
+    3、取款
+    4、转账
+    5、存款
+    6、账单
+    7、退出
+    \033[0m'''
+
+    menu_dic = {
+        '1':auth.account_info,
+        '2':repay,
+        '3':withdraw,
+        '4':transfer,
+        '5':save,
+        '6':pay_bills,
+        '7':exit
+    }
+
+    exit_sign = True
+    while exit_sign:
+        print(menu)
+        user_choice = input(">>>:".strip())
+        if user_choice in menu_dic:
+            # print(menu_dict[user_choice])
+            print(user_data)
+            exit_sign = eval(menu_dic[user_choice](user_data))  # user_data 传给 acc_data
+
+        else:
+            print("\033[31;1m您输入的选项有误，请重新输入\033[0m")
+            continue
+
+
+
+
+def manager_controll(user_data):
+    '''
+    管理员菜单选项
+    :param user_data: 用户数据字典
     :return:
     '''
     menu = u'''
@@ -88,6 +151,13 @@ def manager_run():
     print("\033[31;1m ATM管理员菜单 \033[0m".center(50,'#'))
     user_data = get_user_data()
     # print(user_data)
-    manager_controll()
+    manager_controll(user_data)
 
+
+def run():
+    print("\033[31;1m ATM用户菜单 \033[0m".center(50,'#'))
+    user_data = get_user_data()
+    print("run",user_data)
+    acc_data = user_data['account_data']
+    interactive(acc_data)  # account_data
 

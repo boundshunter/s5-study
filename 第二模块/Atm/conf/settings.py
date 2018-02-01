@@ -25,3 +25,13 @@ LOG_TYPES = {
     'transaction': 'transactions.log',
     'access': 'access.log',
 }
+
+TRANSACTION_TYPE = {
+    'repay': {'action': 'plus', 'interest': 0}, # 还款
+    'receive': {'action': 'plus', 'interest': 0},   # 接收
+    'withdraw': {'action': 'minus', 'interest': 0.05},  # 提款
+    'transfer': {'action': 'minus', 'interest': 0.05},  # 转出
+    'pay': {'action': 'minus', 'interest': 0},  # 支付
+    'save': {'action': 'plus', 'interest': 0},  # 存钱
+
+}

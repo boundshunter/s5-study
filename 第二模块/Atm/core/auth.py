@@ -145,7 +145,24 @@ def account_info():
     # return True
 
 def get_user_info(acc_data):
-    pass
+    '''
+    :param acc_data:  acc_data == user_data
+    :return:
+    '''
+
+    while True:
+        # account = input("账户ID>>>:".strip())
+        account = acc_data['account_data']['id']
+        account_data = check_account(account)  # True  return account_data
+        print("get_user_info",account_data)
+        if account_data:  # not None    is  account_data
+            # print(account_data)
+            display_account_info(account_data)
+            return True
+        else:
+            print("您查询的账户[%s] 不存在" % account)
+            return True
+    # return True
 
 def display_account_info(account_data):
     '''

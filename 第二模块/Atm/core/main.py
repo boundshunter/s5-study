@@ -10,10 +10,12 @@
 import datetime
 from core import logger
 from core import auth
+from core import accounts
+from core import transaction
 
 
 access_logger=logger.logger('access')
-
+transaction_logger = logger.logger('transaction')
 user_data = {
     'account_id':None,
     'is_authorized':False,
@@ -29,11 +31,43 @@ def get_user_data():
     else:
         return None
 
-def repay(acc_data):
-    pass
-
 def withdraw(acc_data):
-    pass
+    '''
+    显示余额，判断是否可以取款，记录日志
+    :param acc_data:  user_data
+    :return:
+    '''
+    account_data = accounts.load_balance(acc_data['account_id'])
+    balance_info = '''---------余额信息---------
+            Credit:  %s
+            Balance: %s
+    '''% (account_data['credit'],account_data['balance'])
+    print(balance_info)
+
+    RETURN_FLAG = False
+    while not RETURN_FLAG:
+        print("\033[32;1m --------Tips press [b] to back！--------\033[0m")
+        withdraw_amount = input("请输入取款金额>>>:".strip())
+        if  len(withdraw_amount) > 0 and withdraw_amount.isdigit:
+            curr_balance = transaction.make_transaction(transaction_logger,account_data,'withdraw',withdraw_amount)
+            if curr_balance:
+                # print("当前余额信息:%s"
+                #       %(balance_info))
+                print("curr_balance:",curr_balance)
+        elif withdraw_amount == 'b':
+            RETURN_FLAG = True
+
+        else:
+            print("输入格式错误，只允许输入数字！")
+
+def repay(acc_data):
+    '''
+    还款
+    :param acc_data:  user_data
+    :return:
+    '''
+
+
 
 def transfer(acc_data):
     pass
@@ -47,9 +81,10 @@ def pay_bills(acc_data):
 def interactive(acc_data):
     '''
     用户数据交互
-    :param user_data: 用户数据字典
+    :param acc_data: 用户数据字典   account_data
     :return:
     '''
+    # print("interactive",acc_data)
     user_state = acc_data['status']
     if user_state == 8:
         exit("\033[31;1m 账户 [%s] 为管理员,请使用管理员登录入口! \033[0m"
@@ -57,8 +92,8 @@ def interactive(acc_data):
     menu = u'''
     ------爱存不存 BANK-------\033[32;1m
     1、账户信息
-    2、还款
-    3、取款
+    2、取款
+    3、还款
     4、转账
     5、存款
     6、账单
@@ -66,9 +101,9 @@ def interactive(acc_data):
     \033[0m'''
 
     menu_dic = {
-        '1':auth.account_info,
-        '2':repay,
-        '3':withdraw,
+        '1':auth.get_user_info,
+        '2':withdraw,
+        '3':repay,
         '4':transfer,
         '5':save,
         '6':pay_bills,
@@ -81,8 +116,8 @@ def interactive(acc_data):
         user_choice = input(">>>:".strip())
         if user_choice in menu_dic:
             # print(menu_dict[user_choice])
-            print(user_data)
-            exit_sign = eval(menu_dic[user_choice](user_data))  # user_data 传给 acc_data
+            print('menu:',user_data)
+            exit_sign = menu_dic[user_choice](user_data)  # user_data 传给 acc_data
 
         else:
             print("\033[31;1m您输入的选项有误，请重新输入\033[0m")

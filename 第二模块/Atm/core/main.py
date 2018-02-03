@@ -2,17 +2,19 @@
 #-*- coding:utf-8 -*-
 # Author:summer_han
 
-# import sys
-# import os
+import sys
+import os
 # BASE_DIR = os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 # sys.path.append(BASE_DIR)
 # from auth import acc_login
 import datetime
+import time
 from core import logger
 from core import auth
 from core import accounts
 from core import transaction
-
+from core import db_handler
+from conf import settings
 
 access_logger=logger.logger('access')
 transaction_logger = logger.logger('transaction')
@@ -38,27 +40,31 @@ def withdraw(acc_data):
     :return:
     '''
     account_data = accounts.load_balance(acc_data['account_id'])
-    balance_info = '''---------余额信息---------
-            Credit:  %s
-            Balance: %s
-    '''% (account_data['credit'],account_data['balance'])
+    balance_info = '''---------余额信息---------\033[33;1m
+        Credit:  %s
+        Balance: %s
+    \033[0m'''% (account_data['credit'],account_data['balance'])
     print(balance_info)
 
-    RETURN_FLAG = False
-    while not RETURN_FLAG:
+    # RETURN_FLAG = False
+    while True:
         print("\033[32;1m --------Tips press [b] to back！--------\033[0m")
         withdraw_amount = input("请输入取款金额>>>:".strip())
-        if  len(withdraw_amount) > 0 and withdraw_amount.isdigit:
+
+        if withdraw_amount == 'b':
+            return True
+
+        elif len(withdraw_amount) > 0 and withdraw_amount.isdigit:
             curr_balance = transaction.make_transaction(transaction_logger,account_data,'withdraw',withdraw_amount)
+            time.sleep(1)
+            # print(curr_balance)
             if curr_balance:
-                # print("当前余额信息:%s"
-                #       %(balance_info))
-                print("curr_balance:",curr_balance)
-        elif withdraw_amount == 'b':
-            RETURN_FLAG = True
+                print("\033[32;1m您当前的余额为:%s\033[0m" % curr_balance['balance'])
+
 
         else:
-            print("输入格式错误，只允许输入数字！")
+            print("\033[31;1m输入格式错误，只允许输入数字，或 按 [b] 返回！\033[0m")
+            continue
 
 def repay(acc_data):
     '''
@@ -66,17 +72,134 @@ def repay(acc_data):
     :param acc_data:  user_data
     :return:
     '''
+    account_data = accounts.load_balance(acc_data['account_id'])
+    balance_info = '''---------余额信息---------\033[33;1m
+        Credit:  %s
+        Balance: %s
+    \033[0m'''% (account_data['credit'],account_data['balance'])
+    print(balance_info)
+    while True:
+        print("\033[32;1m --------Tips press [b] to back！--------\033[0m")
+        repay_amount = input("请输入您的还款金额".strip())
 
-
+        if repay_amount == 'b':
+            return True
+        elif len(repay_amount) > 0 and repay_amount.isdigit:
+            curr_balance = transaction.make_transaction(transaction_logger,account_data,'repay',repay_amount)
+            if curr_balance:
+                print("\033[32;1m您当前的余额为:%s\033[0m" % curr_balance['balance'])
+        else:
+            print("\033[31;1m输入格式错误，只允许输入数字，或 按 [b] 返回！\033[0m")
+            continue
 
 def transfer(acc_data):
-    pass
+    '''
+    :param acc_data:
+    :return:
+    '''
+    account_data = accounts.load_balance(acc_data['account_id'])
+    balance_info = '''---------余额信息---------\033[33;1m
+        Credit:  %s
+        Balance: %s
+    \033[0m'''% (account_data['credit'],account_data['balance'])
+    print(balance_info)
+    while True:
+        recv_id = input("\033[32;1m请输入要转入的账户ID>>>:\033[0m".strip())
+        if auth.check_account(recv_id):  #  True  return  account_data 判断接收账户是否存在和过期
+            recv_acc_data = auth.check_account(recv_id)
+            print("recv_acc_data",recv_acc_data)
+            if recv_acc_data:
+                trans_amount = input("请输入转账金额>>>:")
+
+                if trans_amount == 'b':
+                    return True
+                elif float(trans_amount) < account_data['balance'] and trans_amount.isdigit():
+                    curr_balance = transaction.make_transaction(transaction_logger,account_data,'transfer',trans_amount)
+                    transaction.make_transaction(transaction_logger,recv_acc_data,'receive',trans_amount)
+                    print("您当前的余额为:%s"%curr_balance['balance'])
+                    time.sleep(1)
+                    return True
+                else:
+                    print("您输入的金额[%s]过大或者不符合输入要求，请重新输入不超过您余额[%s]的额度"
+                          %(trans_amount,account_data['balance']))
+                    continue
+        else:
+            print("\033[31;1m您输入的账户不存在，请重新输入\033[0m")
+            continue
+
+
+
+
+
+
 
 def save(acc_data):
-    pass
+    '''
+    :param acc_data:
+    :return:
+    '''
+    account_data = accounts.load_balance(acc_data['account_id'])
+    balance_info = '''---------余额信息---------\033[33;1m
+        Credit:  %s
+        Balance: %s
+    \033[0m'''% (account_data['credit'],account_data['balance'])
+    print(balance_info)
 
-def pay_bills(acc_data):
-    pass
+    while True:
+        print("\033[32;1m --------Tips press [b] to back！--------\033[0m")
+        save_amount = input("请输入取款金额>>>:".strip())
+
+        if save_amount == 'b':
+            return True
+
+        elif len(save_amount) > 0 and save_amount.isdigit:
+            curr_balance = transaction.make_transaction(transaction_logger,account_data,'save',save_amount)
+            time.sleep(1)
+            # print(curr_balance)
+            if curr_balance:
+                print("\033[32;1m您当前的余额为:%s\033[0m" % curr_balance['balance'])
+
+
+        else:
+            print("\033[31;1m输入格式错误，只允许输入数字，或 按 [b] 返回！\033[0m")
+            continue
+
+def display_bills(acc_data):
+    '''
+    显示账单
+    :param acc_data:
+    :return:
+    '''
+    check_date = input("请输入查询日期 \033[31;1meg:[2010-10]\033[0m".strip())
+    log_path = db_handler.db_handler(settings.LOG_DATABASE)
+    bill_file = "%s%s.bills" % (log_path,acc_data['account_id'])
+
+    if os.path.isfile(bill_file):
+        print("账户 [\033[32;1m%s\033[0m] 账单:".center(50,'-') % acc_data["account_id"])
+        with open(bill_file,'r') as f:
+            for bill in f:
+                print(bill)
+                bill_date = bill.split(' ')[0]  # 取账单月份
+                if check_date == bill_date:
+                    print("\033[33;1m%s\033[0m" % bill.strip())
+
+        log_type = "transaction"
+        print("Account [\033[32;1m%s\033[0m] history log:" % acc_data["account_id"])
+        logger.show_log(acc_data['account_id'], log_type, check_date)
+
+
+    else:
+        print("你的账号[%s]不存在账单" % acc_data['account_id'])
+
+
+
+def log_out(acc_data):
+    '''
+    退出
+    :param acc_data:
+    :return:
+    '''
+    print("\033[35;1m亲爱的用户 [%s] ，感谢您使用爱存不存系统，再见！\033[0m".center(50,'-') % acc_data['account_id'])
 
 def interactive(acc_data):
     '''
@@ -106,8 +229,8 @@ def interactive(acc_data):
         '3':repay,
         '4':transfer,
         '5':save,
-        '6':pay_bills,
-        '7':exit
+        '6':display_bills,
+        '7':log_out
     }
 
     exit_sign = True
@@ -115,8 +238,7 @@ def interactive(acc_data):
         print(menu)
         user_choice = input(">>>:".strip())
         if user_choice in menu_dic:
-            # print(menu_dict[user_choice])
-            print('menu:',user_data)
+            # print('menu:',user_data)
             exit_sign = menu_dic[user_choice](user_data)  # user_data 传给 acc_data
 
         else:

@@ -20,12 +20,14 @@ def logger(log_type):
 
     # 屏幕输出 screen output show
     ch = logging.StreamHandler()
-    ch.setLevel(settings.LOG_LEVEL)
+    ch.setLevel(settings.LOG_LEVEL)  # 屏幕 输出 info
 
     # 日志文件输出 log file output
-    log_file = "%slog%s"%(settings.BASE_DIR,settings.LOG_TYPES[log_type])
+    log_file = "%s/logs/%s" % (settings.BASE_DIR,settings.LOG_TYPES[log_type])
+    # print(log_file)
     fh = logging.FileHandler(log_file)
-    fh.setLevel(settings.LOG_LEVEL)
+
+    fh.setLevel(settings.LOG_LEVEL)  # 日志记录 info
 
     #日志输出格式
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
@@ -40,3 +42,5 @@ def logger(log_type):
     #返回输出
     return logger
 
+
+# logger('transaction').info("123")

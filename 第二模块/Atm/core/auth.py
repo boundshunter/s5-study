@@ -154,7 +154,7 @@ def get_user_info(acc_data):
         # account = input("账户ID>>>:".strip())
         account = acc_data['account_data']['id']
         account_data = check_account(account)  # True  return account_data
-        print("get_user_info",account_data)
+        # print("get_user_info",account_data)
         if account_data:  # not None    is  account_data
             # print(account_data)
             display_account_info(account_data)

@@ -1,0 +1,2 @@
+2018-02-03 18:01:57 - transaction - INFO - accounts:100   action:transfer   amount:1000.0   interest:50.0 
+2018-02-03 18:01:57 - transaction - INFO - accounts:1001   action:receive   amount:1000.0   interest:0.0 

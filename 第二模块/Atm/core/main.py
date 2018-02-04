@@ -302,8 +302,13 @@ def login():
 def manager_run():
     print("\033[31;1m ATM管理员菜单 \033[0m".center(50,'#'))
     user_data = get_user_data()
-    # print(user_data)
-    manager_controll(user_data)
+    status = user_data['account_data']['status']
+    if status == 8:
+        manager_controll(user_data)
+    else:
+        access_logger.error("Your account [%s] is not a admin,please use a admin account to login system"
+                            % user_data['account_id'])
+        exit()
 
 
 def run():

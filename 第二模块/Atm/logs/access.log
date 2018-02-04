@@ -1,1 +1,9 @@
 2018-02-04 17:17:37 - access - ERROR - 账户 [100] 输入错误次数过多，系统退出！
+2018-02-04 17:45:42 - access - ERROR -  [a] 输入错误次数过多，系统退出！
+2018-02-04 17:49:06 - access - ERROR - Your account [1005] is not a admin,please use a admin account to login system
+2018-02-04 17:53:39 - access - ERROR -  [a] have try too many attempts,System exit!
+2018-02-04 17:54:15 - access - ERROR -  [1005] have try too many attempts,System exit!
+2018-02-04 17:54:26 - access - ERROR -  [admin] have try too many attempts,System exit!
+2018-02-04 17:54:36 - access - ERROR -  [1005] have try too many attempts,System exit!
+2018-02-04 18:01:20 - access - ERROR -  [adminj] have try too many attempts,System exit!
+2018-02-04 18:01:47 - access - ERROR -  [admin] have try too many attempts,System exit!

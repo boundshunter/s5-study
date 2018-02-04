@@ -37,7 +37,6 @@ def acc_auth(account,password):
             注意 strptime 和 strftime的区别
             strftime 是日期转换成字符串 datetime.datetime.now().strftime('%b-%d-%y %H:%M:%S')
             strptime 是字符串转换成日期 datetime.datetime.strptime('sep-21-09 16:33:33','%b-%d-%y %H:%M:%S')
-
            '''
             status = account_data['status']
             if datetime.datetime.now() > exp_time_stamp:
@@ -50,13 +49,9 @@ def acc_auth(account,password):
                 print("\033[31;1m您的账户状态[%s]有误，请联系管理员,系统退出！\033[0m" % status )
                 exit()
         else:
-            print("\033[32;1m您的密码有误!\033[0m")
+            print("\033[32;1m您的密码有误,请重新输入\033[0m")
     else:
         print(" 您的账户\033[33;1m [%s] \033[0m不存在"%(account))
-
-
-
-
 
 def acc_login(user_data,log_obj):
     '''
@@ -65,15 +60,12 @@ def acc_login(user_data,log_obj):
     :param log_obj: access_logger
     :return: auth  =  account_data
     '''
-
-
     retry_count = 0
     exit_count = 3
-
     while user_data['is_authorized'] is False and retry_count < exit_count:
         account = input('请输入账户ID:'.strip())
         password = input('请输入密码:'.strip())
-        # print(user_data['is_authorized'],retry_count)
+        # same_account = account
         auth = acc_auth(account,password)  # 返回 account_data  登录验证：验证用户，密码，状态，是否过期
         # print("auth:",auth)
         if auth:  # 判断 auth 是否为空
@@ -82,10 +74,11 @@ def acc_login(user_data,log_obj):
             # account_data = auth
             return auth
         else:  # auth is None
+            # if account_one == account_two:
             retry_count +=1
             continue
     else:
-        log_obj.error(u" [%s] 输入错误次数过多，系统退出！" % (account))  # 记录登录错误日志到文件 access.log
+        log_obj.error(" [%s] have try too many attempts,System exit!" % (account))  # 记录登录错误日志到文件 access.log
         exit()
 
 def sign_up():

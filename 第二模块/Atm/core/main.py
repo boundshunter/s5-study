@@ -26,7 +26,7 @@ user_data = {
 
 def get_user_data():
     account_data = auth.acc_login(user_data,access_logger)
-    print("acc_da",account_data)
+    # print("acc_da",account_data)
     if user_data['is_authorized']:
         user_data['account_data'] = account_data
         return user_data
@@ -104,10 +104,11 @@ def transfer(acc_data):
     \033[0m'''% (account_data['credit'],account_data['balance'])
     print(balance_info)
     while True:
+        print("\033[32;1m --------Tips press [b] to back！--------\033[0m")
         recv_id = input("\033[32;1m请输入要转入的账户ID>>>:\033[0m".strip())
         if auth.check_account(recv_id):  #  True  return  account_data 判断接收账户是否存在和过期
             recv_acc_data = auth.check_account(recv_id)
-            print("recv_acc_data",recv_acc_data)
+            # print("recv_acc_data",recv_acc_data)
             if recv_acc_data:
                 trans_amount = input("请输入转账金额>>>:")
 
@@ -126,12 +127,6 @@ def transfer(acc_data):
         else:
             print("\033[31;1m您输入的账户不存在，请重新输入\033[0m")
             continue
-
-
-
-
-
-
 
 def save(acc_data):
     '''
@@ -314,7 +309,10 @@ def manager_run():
 def run():
     print("\033[31;1m ATM用户菜单 \033[0m".center(50,'#'))
     user_data = get_user_data()
-    print("run",user_data)
-    acc_data = user_data['account_data']
-    interactive(acc_data)  # account_data
-
+    # interactive(user_data)
+    # print("run",user_data)
+    if user_data:
+        acc_data = user_data['account_data']
+        interactive(acc_data)  # account_data
+    else:
+        exit()

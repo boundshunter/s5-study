@@ -6,7 +6,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # sys.path.append(BASE_DIR)
-
+BILL_DAY = 25
 DATABASE = {
     'engine': 'file_storage', #support mysql,postgresql in the future
     'name':'accounts',
@@ -16,7 +16,7 @@ DATABASE = {
 LOG_DATABASE = {
     'engine': 'file_storage',  # support mysql,postgresql in the future
     'name': 'accounts',
-    'path': "%s/log" % BASE_DIR
+    'path': "%s/logs" % BASE_DIR
 }
 
 LOG_LEVEL = logging.INFO

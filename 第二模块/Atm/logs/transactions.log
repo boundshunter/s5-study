@@ -9,3 +9,11 @@
 2018-02-04 17:26:26 - transaction - INFO - accounts:1003   action:repay   amount:15000.0   interest:0.0 
 2018-02-04 17:29:14 - transaction - INFO - accounts:1003   action:transfer   amount:1500.0   interest:75.0 
 2018-02-04 17:29:14 - transaction - INFO - accounts:1002   action:receive   amount:1500.0   interest:0.0 
+2018-02-05 15:37:17 - transaction - INFO - accounts:1001   action:save   amount:1000.0   interest:0.0 
+2018-02-05 15:37:24 - transaction - INFO - accounts:1001   action:save   amount:1.0   interest:0.0 
+2018-02-05 15:37:49 - transaction - INFO - accounts:1001   action:transfer   amount:500.0   interest:25.0 
+2018-02-05 15:37:49 - transaction - INFO - accounts:1002   action:receive   amount:500.0   interest:0.0 
+2018-02-05 15:46:33 - transaction - INFO - accounts:1005   action:transfer   amount:1500.0   interest:75.0 
+2018-02-05 15:46:33 - transaction - INFO - accounts:1006   action:receive   amount:1500.0   interest:0.0 
+2018-02-05 15:47:18 - transaction - INFO - accounts:1006   action:transfer   amount:130.0   interest:6.5 
+2018-02-05 15:47:18 - transaction - INFO - accounts:1005   action:receive   amount:130.0   interest:0.0 

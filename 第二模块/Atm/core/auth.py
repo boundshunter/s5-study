@@ -51,35 +51,75 @@ def acc_auth(account,password):
         else:
             print("\033[32;1m您的密码有误,请重新输入\033[0m")
     else:
-        print(" 您的账户\033[33;1m [%s] \033[0m不存在"%(account))
+        print(" 您的账户\033[33;1m [%s] \033[0m不存在" % account )
+
+# def acc_login(user_data,log_obj):
+#     '''
+#
+#     :param user_data:
+#     :param log_obj: access_logger
+#     :return: auth  =  account_data
+#     '''
+#     retry_count = 0
+#     exit_count = 3
+#     while user_data['is_authorized'] is False and retry_count < exit_count:
+#         account = input('请输入账户ID:'.strip())
+#         password = input('请输入密码:'.strip())
+#         # same_account = account
+#         auth = acc_auth(account,password)  # 返回 account_data  登录验证：验证用户，密码，状态，是否过期
+#         # print("auth:",auth)
+#         if auth:  # 判断 auth 是否为空
+#             user_data['is_authorized'] = True
+#             user_data['account_id'] = account
+#             # account_data = auth
+#             return auth
+#         else:  # auth is None
+#             # if account_one == account_two:
+#             retry_count +=1
+#             continue
+#     else:
+#         log_obj.error(" [%s] have try too many attempts,System exit!" % (account))  # 记录登录错误日志到文件 access.log
+#         exit()
 
 def acc_login(user_data,log_obj):
     '''
-
+    判断用户登录错误次数，超过3次记录日志和打印屏幕输出，使用字典方式支持多用户互相切换错误记录
     :param user_data:
     :param log_obj: access_logger
     :return: auth  =  account_data
     '''
+    account_login_dic = {}
     retry_count = 0
-    exit_count = 3
+    exit_count = 4
+
     while user_data['is_authorized'] is False and retry_count < exit_count:
         account = input('请输入账户ID:'.strip())
         password = input('请输入密码:'.strip())
-        # same_account = account
-        auth = acc_auth(account,password)  # 返回 account_data  登录验证：验证用户，密码，状态，是否过期
-        # print("auth:",auth)
-        if auth:  # 判断 auth 是否为空
+
+        auth = acc_auth(account,password)
+        if auth:
             user_data['is_authorized'] = True
             user_data['account_id'] = account
-            # account_data = auth
             return auth
-        else:  # auth is None
-            # if account_one == account_two:
-            retry_count +=1
-            continue
-    else:
-        log_obj.error(" [%s] have try too many attempts,System exit!" % (account))  # 记录登录错误日志到文件 access.log
-        exit()
+        else:
+            #先检测 dic 里面是否有相同名称 的key，没有就增加，有就取value
+            if account not in account_login_dic:  # 如果账户不存在于字典
+                count = 0
+                count += 1
+                account_login_dic.update({account:count}) # 初始化新用户到字典
+            else:
+                count = account_login_dic[account]  # 初始化 计数
+                count += 1                          # 到此处错误已经产生，错误次数+1
+                account_login_dic.update({account:count})  # 将用户对应错误次数更新到字典
+                # print("old",account_login_dic)
+                for i in account_login_dic.values():  # 判断字典中用户名对应的 错误次数
+                    retry_count = i
+                    # print(retry_count)
+                    if retry_count == 3:  # 判断用户是否产生3次错误，3次错误 记录日志 并且 退出当前程序
+                        curr_account = list(account_login_dic.keys())[list(account_login_dic.values()).index(retry_count)]
+                        # print(curr_account)
+                        log_obj.error(" [%s] have try too many attempts,System exit!" % (curr_account))
+                        exit()
 
 def sign_up():
 

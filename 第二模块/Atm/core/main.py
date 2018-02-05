@@ -4,8 +4,8 @@
 
 import sys
 import os
-# BASE_DIR = os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
-# sys.path.append(BASE_DIR)
+BASE_DIR = os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
+sys.path.append(BASE_DIR)
 # from auth import acc_login
 import datetime
 import time
@@ -104,13 +104,14 @@ def transfer(acc_data):
     \033[0m'''% (account_data['credit'],account_data['balance'])
     print(balance_info)
     while True:
-        print("\033[32;1m --------Tips press [b] to back！--------\033[0m")
+        # print("\033[32;1m --------Tips press [b] to back！--------\033[0m")
         recv_id = input("\033[32;1m请输入要转入的账户ID>>>:\033[0m".strip())
         if auth.check_account(recv_id):  #  True  return  account_data 判断接收账户是否存在和过期
             recv_acc_data = auth.check_account(recv_id)
             # print("recv_acc_data",recv_acc_data)
             if recv_acc_data:
-                trans_amount = input("请输入转账金额>>>:")
+                print("\033[32;1m --------Tips press [b] to back！--------\033[0m")
+                trans_amount = input("\033[33;1m请输入转账金额>>>:\033[0m")
 
                 if trans_amount == 'b':
                     return True
@@ -283,12 +284,58 @@ def exit_flag():
     exit()
 
 def get_user_bill(account_id):
-    curr_day = datetime.datetime.now()
+    '''
 
+    :param account_id:
+    :return:
+    '''
+    curr_day = datetime.datetime.now()
+    i = datetime.datetime.now()  # 当前时间
+    year_month = "%s-%s" % (i.year, i.month)  # 帐单年月
+    account_data = accounts.load_balance(account_id)  # 获取帐户信息
+    balance = account_data["balance"]  # 可用额度
+    credit = account_data["credit"]  # 信用额度
+    if i.day != settings.BILL_DAY:
+        print("\033[31;1mToday is not the bill generation day!\033[0m")
+        # return    # 此处为了演示，先注释
+
+    if balance >= credit:
+        repay_amount = 0
+        bill_info = "Account [\033[32;1m%s\033[0m] needn't to repay." % account_id
+    else:
+        repay_amount = credit - balance
+        bill_info = "Account [\033[32;1m%s\033[0m] need to repay [\033[33;1m%s\033[0m]" \
+                    % (account_id, repay_amount)
+
+    print(bill_info)
+    log_path = db_handler.db_handler(settings.LOG_DATABASE)
+    bill_log = "%s/%s.bills" % (log_path, account_id)
+    with open(bill_log, "a+") as f:
+        f.write("bill_date: %s account_id: %s need_repay: %d\n" % (year_month, account_id, repay_amount))
 
 def get_all_bills():
-    pass
+    '''
 
+    :return:
+    '''
+    db_path = db_handler.db_handler(settings.DATABASE)
+    for root, dirs, files in os.walk(db_path):
+        print("root:%s, dirs:%s files:%s" % (root,dirs,files))
+        for f in files:
+            if os.path.splitext(f)[1] == ".json":
+                account_id = os.path.splitext(f)[0]  # 帐户id
+                # account_file = "%s/%s.json" % (db_path, account_id)
+                account_data = auth.check_account(account_id)  # 获取用户信息
+                status = account_data['status']
+                print("Account bill:".center(50, "-"))
+
+                # 除了管理员，普通帐户都应该出帐单，即使帐户禁用
+                if status != 8:
+                    auth.display_account_info(account_data)
+                    get_user_bill(account_id)  # 获取帐单
+                print("End".center(50, "-"))
+
+            # print(">>:")
 def login():
     print("Welcome to my homepage.")
 

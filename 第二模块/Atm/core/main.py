@@ -166,10 +166,10 @@ def display_bills(acc_data):
     :param acc_data:
     :return:
     '''
-    check_date = input("请输入查询日期 \033[31;1meg:[2010-10]\033[0m".strip())
+    check_date = input("请输入查询日期 \033[31;1meg:[2010-10] \033[0m>>:".strip())
     log_path = db_handler.db_handler(settings.LOG_DATABASE)
-    bill_file = "%s%s.bills" % (log_path,acc_data['account_id'])
-
+    bill_file = "%s/%s.bills" % (log_path,acc_data['account_id'])
+    print("dir:%s,file:%s" % (log_path,bill_file))
     if os.path.isfile(bill_file):
         print("账户 [\033[32;1m%s\033[0m] 账单:".center(50,'-') % acc_data["account_id"])
         with open(bill_file,'r') as f:
@@ -181,7 +181,7 @@ def display_bills(acc_data):
 
         log_type = "transaction"
         print("Account [\033[32;1m%s\033[0m] history log:" % acc_data["account_id"])
-        logger.show_log(acc_data['account_id'], log_type, check_date)
+        # logger.show_log(acc_data['account_id'], log_type, check_date)
 
 
     else:
@@ -285,11 +285,11 @@ def exit_flag():
 
 def get_user_bill(account_id):
     '''
-
+    获取用户账单
     :param account_id:
     :return:
     '''
-    curr_day = datetime.datetime.now()
+    # curr_day = datetime.datetime.now()
     i = datetime.datetime.now()  # 当前时间
     year_month = "%s-%s" % (i.year, i.month)  # 帐单年月
     account_data = accounts.load_balance(account_id)  # 获取帐户信息
@@ -315,25 +315,29 @@ def get_user_bill(account_id):
 
 def get_all_bills():
     '''
-
+    获取所有用户账单信息
     :return:
     '''
     db_path = db_handler.db_handler(settings.DATABASE)
     for root, dirs, files in os.walk(db_path):
-        print("root:%s, dirs:%s files:%s" % (root,dirs,files))
+        # print("root:%s, dirs:%s files:%s" % (root,dirs,files))
         for f in files:
             if os.path.splitext(f)[1] == ".json":
                 account_id = os.path.splitext(f)[0]  # 帐户id
                 # account_file = "%s/%s.json" % (db_path, account_id)
                 account_data = auth.check_account(account_id)  # 获取用户信息
-                status = account_data['status']
-                print("Account bill:".center(50, "-"))
+
+                if account_data:
+                    status = account_data['status']
+                    # print(status)
+                    print("Account bill:".center(50, "-"))
 
                 # 除了管理员，普通帐户都应该出帐单，即使帐户禁用
-                if status != 8:
-                    auth.display_account_info(account_data)
-                    get_user_bill(account_id)  # 获取帐单
-                print("End".center(50, "-"))
+                    if status != 8:
+                        print("status != 8 ",account_id)
+                        auth.display_account_info(account_data)
+                        get_user_bill(account_id)  # 获取帐单
+                        print("End".center(50, "-"))
 
             # print(">>:")
 def login():

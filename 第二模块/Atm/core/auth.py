@@ -93,8 +93,8 @@ def acc_login(user_data,log_obj):
     exit_count = 4
 
     while user_data['is_authorized'] is False and retry_count < exit_count:
-        account = input('请输入账户ID:'.strip())
-        password = input('请输入密码:'.strip())
+        account = input('\033[32;1m请输入账户ID:\033[0m'.strip())
+        password = input('\033[32;1m请输入密码:\033[0m'.strip())
 
         auth = acc_auth(account,password)
         if auth:
@@ -258,7 +258,7 @@ def check_account(account):
             account_data = json.load(f)
             status = account_data['status']
             if status == 8:
-                print("权限不足，账户为管理员.")
+                print("权限不足，账户[%s]为管理员,无法查看." % account_data['id'])
                 return False
 
             exp_time_stamp = datetime.datetime.strptime(account_data['expire_date'],"%Y-%m-%d")

@@ -166,26 +166,27 @@ def display_bills(acc_data):
     :param acc_data:
     :return:
     '''
-    check_date = input("请输入查询日期 \033[31;1meg:[2010-10] \033[0m>>:".strip())
-    log_path = db_handler.db_handler(settings.LOG_DATABASE)
-    bill_file = "%s/%s.bills" % (log_path,acc_data['account_id'])
-    print("dir:%s,file:%s" % (log_path,bill_file))
+    check_date = input("请输入查询日期 \033[31;1meg:[2010-10] \033[0m>>:".strip())  #输入查询日期年月
+    log_path = db_handler.db_handler(settings.LOG_DATABASE)   # 日志路径
+    bill_file = "%s/%s.bills" % (log_path,acc_data['account_id'])   # 日志文件名
+    print("\033[42;1mfile:%s\033[0m" % (bill_file))
     if os.path.isfile(bill_file):
-        print("账户 [\033[32;1m%s\033[0m] 账单:".center(50,'-') % acc_data["account_id"])
+        print("账户 [\033[32;1m%s\033[0m] 账单:".center(60,'-') % acc_data["account_id"])
         with open(bill_file,'r') as f:
             for bill in f:
-                print(bill)
-                bill_date = bill.split(' ')[0]  # 取账单月份
+                # print("for bills:",bill)
+                bill_date = bill.split(' ')[1]  # 取账单月份
+                # print(bill_date)
                 if check_date == bill_date:
                     print("\033[33;1m%s\033[0m" % bill.strip())
 
         log_type = "transaction"
-        print("Account [\033[32;1m%s\033[0m] history log:" % acc_data["account_id"])
-        # logger.show_log(acc_data['account_id'], log_type, check_date)
-
+        logger.show_log(acc_data['account_id'], log_type, check_date)
+        return True
 
     else:
         print("你的账号[%s]不存在账单" % acc_data['account_id'])
+        return True
 
 
 
@@ -325,8 +326,8 @@ def get_all_bills():
             if os.path.splitext(f)[1] == ".json":
                 account_id = os.path.splitext(f)[0]  # 帐户id
                 # account_file = "%s/%s.json" % (db_path, account_id)
-                account_data = auth.check_account(account_id)  # 获取用户信息
-
+                # account_data = auth.check_account(account_id)  # 获取用户信息
+                account_data = auth.ck_acc_data(account_id)
                 if account_data:
                     status = account_data['status']
                     # print(status)
@@ -339,7 +340,7 @@ def get_all_bills():
                         get_user_bill(account_id)  # 获取帐单
                         print("End".center(50, "-"))
 
-            # print(">>:")
+
 def login():
     print("Welcome to my homepage.")
 

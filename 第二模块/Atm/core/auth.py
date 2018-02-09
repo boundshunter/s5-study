@@ -246,7 +246,7 @@ def account_modify():
 
 def check_account(account):
     '''
-    检查用户是否存在
+    检查用户是否存在，做用户权限是否为管理员判断
     :param account:用户ID
     :return: account_data
     '''
@@ -271,4 +271,29 @@ def check_account(account):
     else:
         return False
 
+def ck_acc_data(account):
+    '''
+    检查用户是否存在,不做用户权限判断
+    :param account:用户ID
+    :return: account_data
+    '''
+    db_path = db_handler.db_handler(settings.DATABASE)
+    account_file = "%s/%s.json" % (db_path, account)
 
+    if os.path.isfile(account_file):
+        with open(account_file,'r') as f:
+            account_data = json.load(f)
+            status = account_data['status']
+            # if status == 8:
+            #     print("权限不足，账户[%s]为管理员,无法查看." % account_data['id'])
+            #     return False
+
+            exp_time_stamp = datetime.datetime.strptime(account_data['expire_date'],"%Y-%m-%d")
+            curr_time = datetime.datetime.now()
+            if  curr_time > exp_time_stamp:
+                print("账户 [%s] 已过期!" % account)
+                return False
+            else:
+                return account_data
+    else:
+        return False

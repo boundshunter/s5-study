@@ -8,5 +8,8 @@
 #
 # print(user_data['account_data']['status'])
 
-nb = 1001 -100.0 -5.0
-print(nb)
+# nb = 1001 -100.0 -5.0
+# print(nb)
+with open("C:\Users\sjf\PycharmProjects\s4\第二模块\Atm/logs/accounts/1001.bills",'r') as f:
+    bill_date = f.split(':')[0]
+    print(bill_date)

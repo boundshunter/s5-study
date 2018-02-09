@@ -9,9 +9,10 @@ import os,sys
 
 BASE_DIR = os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 sys.path.append(BASE_DIR)
-
+import datetime
 import logging
 from conf import settings
+from core import bill_date
 
 def logger(log_type):
 
@@ -44,3 +45,25 @@ def logger(log_type):
 
 
 # logger('transaction').info("123")
+def show_log(account,log_type,log_day):
+    '''
+
+    :param account: account_id
+    :param log_type: logtype
+    :param log_day: year_month
+    :return:
+    '''
+    year_month = log_day
+    begin_time, end_time = bill_date.get_bill_time(year_month) # 获取输入月份账单开始和结束时间
+    log_file = "%s/logs/%s" % (settings.BASE_DIR, settings.LOG_TYPES[log_type]) # log_type = transaction
+    file = open(log_file)
+    print(file)
+    print("-".center(50, "-"))
+    for line in file:
+        log_time = datetime.datetime.strptime(line.split(",")[0], "%Y-%m-%d %H:%M:%S")
+        user_name = line.split()[7].split(":")[1]
+        # 帐单生成日是25号，则每月帐单是从上月25日到本月24日之间
+        if account == user_name and begin_time <= log_time < end_time:
+            print(line.strip())
+    print("-".center(50, "-"))
+    file.close()

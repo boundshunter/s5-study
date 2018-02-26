@@ -19,7 +19,7 @@ def get_bill_time(year_month):
     the_bill_day = "%s-%s" % (year_month, settings.BILL_DAY)  # 帐单日
     # print(the_bill_day)
     bill_begin_time = datetime.datetime.strptime(the_bill_day, "%Y-%m-%d")  # 给出的年-月帐单开始时间
-    print(bill_begin_time)
+    # print(bill_begin_time)
     year = bill_begin_time.year
     month = bill_begin_time.month
     if month == 12:
@@ -28,5 +28,5 @@ def get_bill_time(year_month):
     else:
         month += 1
     bill_end_time = datetime.datetime(year, month, settings.BILL_DAY)
-    print(bill_end_time)
+    # print(bill_end_time)
     return bill_begin_time, bill_end_time

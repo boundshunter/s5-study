@@ -17,3 +17,7 @@
 2018-02-05 15:46:33 - transaction - INFO - accounts:1006   action:receive   amount:1500.0   interest:0.0 
 2018-02-05 15:47:18 - transaction - INFO - accounts:1006   action:transfer   amount:130.0   interest:6.5 
 2018-02-05 15:47:18 - transaction - INFO - accounts:1005   action:receive   amount:130.0   interest:0.0 
+2018-02-26 13:23:49 - transaction - INFO - accounts:100   action:transfer   amount:1000.0   interest:50.0 
+2018-02-26 13:23:49 - transaction - INFO - accounts:1001   action:receive   amount:1000.0   interest:0.0 
+2018-02-26 13:23:59 - transaction - INFO - accounts:100   action:save   amount:2500.0   interest:0.0 
+2018-02-26 13:24:49 - transaction - INFO - accounts:100   action:withdraw   amount:650.0   interest:32.5 

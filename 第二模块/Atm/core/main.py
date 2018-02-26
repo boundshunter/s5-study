@@ -166,17 +166,17 @@ def display_bills(acc_data):
     :param acc_data:
     :return:
     '''
-    check_date = input("请输入查询日期 \033[31;1meg:[2010-10] \033[0m>>:".strip())  #输入查询日期年月
+    check_date = input("请输入查询日期 \033[31;1meg:[2018-01] \033[0m>>:".strip())  #输入查询日期年月
     log_path = db_handler.db_handler(settings.LOG_DATABASE)   # 日志路径
-    bill_file = "%s/%s.bills" % (log_path,acc_data['account_id'])   # 日志文件名
-    print("\033[42;1mfile:%s\033[0m" % (bill_file))
+    bill_file = "%s/%s.bills" % (log_path,acc_data['account_id'])   # 日志文件路径
+
     if os.path.isfile(bill_file):
         print("账户 [\033[32;1m%s\033[0m] 账单:".center(60,'-') % acc_data["account_id"])
         with open(bill_file,'r') as f:
             for bill in f:
                 # print("for bills:",bill)
                 bill_date = bill.split(' ')[1]  # 取账单月份
-                # print(bill_date)
+                print(bill_date)
                 if check_date == bill_date:
                     print("\033[33;1m%s\033[0m" % bill.strip())
 
@@ -292,7 +292,7 @@ def get_user_bill(account_id):
     '''
     # curr_day = datetime.datetime.now()
     i = datetime.datetime.now()  # 当前时间
-    year_month = "%s-%s" % (i.year, i.month)  # 帐单年月
+    year_month = "%s" % (datetime.datetime.strftime(i,"%Y-%m"))  # 帐单年月
     account_data = accounts.load_balance(account_id)  # 获取帐户信息
     balance = account_data["balance"]  # 可用额度
     credit = account_data["credit"]  # 信用额度

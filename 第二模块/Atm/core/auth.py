@@ -34,9 +34,7 @@ def acc_auth(account,password):
             exp_time_stamp = datetime.datetime.strptime(account_data['expire_date'],'%Y-%m-%d')
 
             '''
-            注意 strptime 和 strftime的区别
-            strftime 是日期转换成字符串 datetime.datetime.now().strftime('%b-%d-%y %H:%M:%S')
-            strptime 是字符串转换成日期 datetime.datetime.strptime('sep-21-09 16:33:33','%b-%d-%y %H:%M:%S')
+
            '''
             status = account_data['status']
             if datetime.datetime.now() > exp_time_stamp:

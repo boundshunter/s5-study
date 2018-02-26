@@ -9,7 +9,19 @@
 # print(user_data['account_data']['status'])
 
 # nb = 1001 -100.0 -5.0
-# print(nb)
-with open("C:\Users\sjf\PycharmProjects\s4\第二模块\Atm/logs/accounts/1001.bills",'r') as f:
-    bill_date = f.split(':')[0]
-    print(bill_date)
+# # print(nb)
+# with open("C:\Users\sjf\PycharmProjects\s4\第二模块\Atm/logs/accounts/1001.bills",'r') as f:
+#     bill_date = f.split(':')[0]
+#     print(bill_date)
+
+# import datetime
+# i = datetime.datetime.now()
+# # print(str(i).split( )[0])
+# # print(i.strptime("%Y-%m"))
+#
+# exp_time_stamp = datetime.datetime.strftime(i,'%Y-%m')
+# print(exp_time_stamp)
+
+import datetime
+with open("123",'r') as line:
+    log_time = datetime.datetime.strptime("%Y-%m-%d %H:%M:%S")

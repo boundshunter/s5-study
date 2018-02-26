@@ -50,20 +50,24 @@ def show_log(account,log_type,log_day):
 
     :param account: account_id
     :param log_type: logtype
-    :param log_day: year_month
+    :param log_day: check_date (
     :return:
     '''
+    print(account,log_type,log_day)
     year_month = log_day
-    begin_time, end_time = bill_date.get_bill_time(year_month) # 获取输入月份账单开始和结束时间
+    begin_time, end_time = bill_date.get_bill_time(year_month) # 通过 check_date 获取输入月份账单开始和结束时间
+
     log_file = "%s/logs/%s" % (settings.BASE_DIR, settings.LOG_TYPES[log_type]) # log_type = transaction
-    file = open(log_file)
-    print(file)
-    print("-".center(50, "-"))
+    file = open(log_file,'r')
+    # with open(log_file) as file:
+    # print('4',file)
+    print(" account \033[32;1m[%s]\033[0m transaction ".center(60, "-")% account)
     for line in file:
-        log_time = datetime.datetime.strptime(line.split(",")[0], "%Y-%m-%d %H:%M:%S")
-        user_name = line.split()[7].split(":")[1]
-        # 帐单生成日是25号，则每月帐单是从上月25日到本月24日之间
-        if account == user_name and begin_time <= log_time < end_time:
-            print(line.strip())
+        log_time = datetime.datetime.strptime(line.split(" - ")[0],"%Y-%m-%d %H:%M:%S")
+        uid = int(line.split( )[7].split(":")[1])  # uid 默认 str 型，转换成 int
+        if log_time > begin_time and log_time < end_time and uid == account:
+            print(line.strip( )) # 移除头尾的空格
     print("-".center(50, "-"))
     file.close()
+
+# show_log(100,'transaction','2018-01')

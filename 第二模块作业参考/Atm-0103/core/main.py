@@ -21,7 +21,7 @@ trans_logger = logger.logger('transaction')
 # access logger
 access_logger = logger.logger('access')
 
-# temp account data ,only saves the data in memory
+# temp accounts data ,only saves the data in memory
 user_data = {
     'account_id': None,
     'is_authenticated': False,
@@ -54,12 +54,12 @@ def account_info(acc_data):
     account_data = acc_data["account_data"]
     status = account_data["status"]
     if status == 8:  # 管理员
-        new_account_id = input("\033[32;1mPlease input your query account id:\033[0m").strip()
+        new_account_id = input("\033[32;1mPlease input your query accounts id:\033[0m").strip()
         # 管理员之间不能相互查看对方
         new_account_data = auth.acc_check(new_account_id)  # 管理员获取普通用户信息
         new_status = new_account_data["status"]
         if new_status == 8 and account_id != new_account_id:  # 另一管理员，禁止查看
-            print("\033[31;1mGet account [%s] info pemission denied!\033[0m" % new_account_id)
+            print("\033[31;1mGet accounts [%s] info pemission denied!\033[0m" % new_account_id)
             return True
 
     display_account_info(account_data)
@@ -189,7 +189,7 @@ def pay_check(acc_data):
     """
     bill_date = input("Please input the date you will query "
                       "like [\033[32;1m2016-12\033[0m]>>>").strip()
-    log_path = db_handler.db_handler(settings.LOG_DATABASE)
+    log_path = db_handler.db_handler(settings.LOG_DATABASE['path'])
     bill_log = "%s/%s.bills" % (log_path, acc_data['account_id'])
     if not os.path.exists(bill_log):
         print("Account [\033[32;1m%s\033[0m] is no bills." % acc_data["account_id"])
@@ -320,7 +320,7 @@ def get_bill(account_id):
         f.write("bill_date: %s account_id: %s need_repay: %d\n" % (year_month, account_id, repay_amount))
 
 
-def get_all_bill():
+def get_all_bills():
     '''
     生成全部可用用户的帐单
     :return:
@@ -393,7 +393,7 @@ def manage_func(acc_data):
 
 def get_user_data():
     '''
-    登录并获取新user_data
+    登录并获取新user_data 为用户字典
     :return:
     '''
     account_data = auth.acc_login(user_data, access_logger)
@@ -409,8 +409,8 @@ def run():
     this function will be called right a way when the program started, here handles the user interaction stuff
     :return:
     '''
-    print("Welcome to ATM".center(50, "#"))
-    user_data = get_user_data()
+    print(" Welcome to ATM".center(50, "#"))
+    user_data = get_user_data()  #获取用户信息，为用户认证后信息 ，然后就可以用户data交互了。
     interactive(user_data)
 
 

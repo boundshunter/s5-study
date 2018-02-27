@@ -22,6 +22,16 @@
 # exp_time_stamp = datetime.datetime.strftime(i,'%Y-%m')
 # print(exp_time_stamp)
 
-import datetime
-with open("123",'r') as line:
-    log_time = datetime.datetime.strptime("%Y-%m-%d %H:%M:%S")
+# import datetime
+# with open("123",'r') as line:
+#     log_time = datetime.datetime.strptime("%Y-%m-%d %H:%M:%S")
+
+menu = u'''
+-----------管理员 选项------------
+1、添加用户
+2、查询用户信息
+3、修改用户信息（冻结账户，信用额度等）
+4、生成全部账单
+5、退出
+'''
+print(menu)

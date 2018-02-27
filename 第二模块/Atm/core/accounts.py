@@ -30,16 +30,4 @@ def load_balance(account_id):
         acc_data = json.load(f)
         return acc_data
 
-# def dump_account(account_data):
-#     '''
-#
-#     :param acc_data:
-#     :return:
-#     '''
-#     db_path = db_handler.db_handler(settings.DATABASE)
-#     account_file = "%s/%s.json" % (db_path, account_data['id'])
-#
-#     with open(account_file,'w') as f:
-#         acc_data = json.dump(account_data,f)
-#         return True
 

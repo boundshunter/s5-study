@@ -25,6 +25,10 @@ user_data = {
 }
 
 def get_user_data():
+    '''
+    获取用户数据
+    :return: user_data
+    '''
     account_data = auth.acc_login(user_data,access_logger)
     # print("acc_da",account_data)
     if user_data['is_authorized']:
@@ -94,6 +98,7 @@ def repay(acc_data):
 
 def transfer(acc_data):
     '''
+    用户转账操作
     :param acc_data:
     :return:
     '''
@@ -131,6 +136,7 @@ def transfer(acc_data):
 
 def save(acc_data):
     '''
+    用户存款操作
     :param acc_data:
     :return:
     '''
@@ -143,7 +149,7 @@ def save(acc_data):
 
     while True:
         print("\033[32;1m --------Tips press [b] to back！--------\033[0m")
-        save_amount = input("请输入取款金额>>>:".strip())
+        save_amount = input("请输入存款金额>>>:".strip())
 
         if save_amount == 'b':
             return True
@@ -162,7 +168,7 @@ def save(acc_data):
 
 def display_bills(acc_data):
     '''
-    显示账单
+    显示用户账单
     :param acc_data:
     :return:
     '''
@@ -176,12 +182,13 @@ def display_bills(acc_data):
             for bill in f:
                 # print("for bills:",bill)
                 bill_date = bill.split(' ')[1]  # 取账单月份
-                print(bill_date)
+                # print(bill_date)
                 if check_date == bill_date:
                     print("\033[33;1m%s\033[0m" % bill.strip())
 
         log_type = "transaction"
-        logger.show_log(acc_data['account_id'], log_type, check_date)
+        # 传入account_id 转换成int型，比较大小，获取用户操作日志
+        logger.show_log(int(acc_data['account_id']), log_type, check_date)
         return True
 
     else:
@@ -192,15 +199,15 @@ def display_bills(acc_data):
 
 def log_out(acc_data):
     '''
-    退出
+    普通用户退出
     :param acc_data:
     :return:
     '''
-    print("\033[35;1m亲爱的用户 [%s] ，感谢您使用爱存不存系统，再见！\033[0m".center(50,'-') % acc_data['account_id'])
+    print("\033[35;1m 亲爱的用户 [%s] ，感谢您使用爱存不存系统，再见！\033[0m".center(50,'-') % acc_data['account_id'])
 
 def interactive(acc_data):
     '''
-    用户数据交互
+    用户菜单选项，可查询账户信息，对账户进行存取款转账，查账单等操作
     :param acc_data: 用户数据字典   account_data
     :return:
     '''
@@ -242,9 +249,22 @@ def interactive(acc_data):
             print("\033[31;1m您输入的选项有误，请重新输入\033[0m")
             continue
 
+def check_admin(func):
+    """
+    检查是否管理员
+    :param func:
+    :return:
+    """
+    def inner(*args, **kwargs):
+        if user_data['account_data'].get('status', None) == 8:
+            ret = func(*args, **kwargs)
+            return ret
+        else:
+            access_logger.error("Your account [%s] is not a admin,please use a admin account to login system"
+                                % user_data['account_id'])
+    return inner
 
-
-
+@check_admin
 def manager_controll(user_data):
     '''
     管理员菜单选项
@@ -259,6 +279,7 @@ def manager_controll(user_data):
     4、生成全部账单
     5、退出
     '''
+
     menu_dict = {
         '1':"auth.sign_up()",
         '2':"auth.account_info()",
@@ -268,7 +289,7 @@ def manager_controll(user_data):
     }
     go_flag = True
     while go_flag:
-        print("\033[33;1m%s\033[0m]" % menu )
+        print("\033[33;1m%s\033[0m" % menu)
         user_choice = input(">>>>:")
 
         if user_choice in menu_dict:
@@ -281,6 +302,10 @@ def manager_controll(user_data):
 
 
 def exit_flag():
+    '''
+    退出
+    :return:
+    '''
     print("----退出当前管理员[%s]----"%user_data['account_id'])
     exit()
 
@@ -335,40 +360,41 @@ def get_all_bills():
 
                 # 除了管理员，普通帐户都应该出帐单，即使帐户禁用
                     if status != 8:
-                        print("status != 8 ",account_id)
+                        # print("status != 8 ",account_id)
                         auth.display_account_info(account_data)
                         get_user_bill(account_id)  # 获取帐单
                         print("End".center(50, "-"))
+    return True
 
-
-def login():
-    print("Welcome to my homepage.")
-
-# def run():
-#     '''
-#     程序开始会调用此方法用于和用户数据交互
-#     :return:
-#     '''
-#     acc_data = auth.acc_login(user_data,access_logger)
+# def login():
+#     print("Welcome to my homepage.")
 
 def manager_run():
+    '''
+    管理员入口判断
+    :return:
+    '''
     print("\033[31;1m ATM管理员菜单 \033[0m".center(50,'#'))
     user_data = get_user_data()
     status = user_data['account_data']['status']
-    if status == 8:
-        manager_controll(user_data)
-    else:
-        access_logger.error("Your account [%s] is not a admin,please use a admin account to login system"
-                            % user_data['account_id'])
-        exit()
-
+    # if status == 8: # 判断管理员权限
+    #     manager_controll(user_data)
+    # else:
+    #     access_logger.error("Your account [%s] is not a admin,please use a admin account to login system"
+    #                         % user_data['account_id'])
+    #     exit()
+    manager_controll(user_data)
 
 def run():
+    '''
+    普通用户入口判断
+    :return:
+    '''
     print("\033[31;1m ATM用户菜单 \033[0m".center(50,'#'))
     user_data = get_user_data()
     # interactive(user_data)
     # print("run",user_data)
-    if user_data:
+    if user_data:  # 判断用户数据返回非空
         acc_data = user_data['account_data']
         interactive(acc_data)  # account_data
     else:

@@ -51,33 +51,6 @@ def acc_auth(account,password):
     else:
         print(" 您的账户\033[33;1m [%s] \033[0m不存在" % account )
 
-# def acc_login(user_data,log_obj):
-#     '''
-#
-#     :param user_data:
-#     :param log_obj: access_logger
-#     :return: auth  =  account_data
-#     '''
-#     retry_count = 0
-#     exit_count = 3
-#     while user_data['is_authorized'] is False and retry_count < exit_count:
-#         account = input('请输入账户ID:'.strip())
-#         password = input('请输入密码:'.strip())
-#         # same_account = account
-#         auth = acc_auth(account,password)  # 返回 account_data  登录验证：验证用户，密码，状态，是否过期
-#         # print("auth:",auth)
-#         if auth:  # 判断 auth 是否为空
-#             user_data['is_authorized'] = True
-#             user_data['account_id'] = account
-#             # account_data = auth
-#             return auth
-#         else:  # auth is None
-#             # if account_one == account_two:
-#             retry_count +=1
-#             continue
-#     else:
-#         log_obj.error(" [%s] have try too many attempts,System exit!" % (account))  # 记录登录错误日志到文件 access.log
-#         exit()
 
 def acc_login(user_data,log_obj):
     '''
@@ -120,7 +93,10 @@ def acc_login(user_data,log_obj):
                         exit()
 
 def sign_up():
-
+    '''
+    新用户注册
+    :return:
+    '''
     exist_flag = True
     while exist_flag is True:
         account = input("请输入用户ID:".strip())
@@ -155,7 +131,7 @@ def sign_up():
 
 def account_info():
     '''
-    用户信息
+    用户信息查询
     :return:
     '''
     while True:
@@ -169,10 +145,11 @@ def account_info():
         else:
             print("您查询的账户[%s] 不存在" % account)
             return True
-    # return True
+
 
 def get_user_info(acc_data):
     '''
+    获取用户信息
     :param acc_data:  acc_data == user_data
     :return:
     '''
@@ -189,19 +166,24 @@ def get_user_info(acc_data):
         else:
             print("您查询的账户[%s] 不存在" % account)
             return True
-    # return True
 
 def display_account_info(account_data):
     '''
+    显示用户信息
     :param account_data:
     :return True:
     '''
-    account_data['password']=get_md5(account_data['password'].encode("utf-8")) # 密码加密
+    account_data['password']=get_md5(account_data['password'].encode("utf-8")) # 用户密码加密
     for k in account_data:
         print("{:<20}:\033[32;1m{:<20}\033[0m".format(k,account_data[k]))
     return True
 
 def get_md5(password):
+    '''
+    用户密码加密
+    :param password:
+    :return:
+    '''
     # 获取 md5
     md5 = hashlib.md5()
     md5.update(password)
@@ -231,11 +213,6 @@ def account_modify():
                 print("\033[31;1m您已将账户ID为[%s] 中项目 [%s] 值修改为 [%s] !\033[0m" % (account,input_item,input_value))
 
                 accounts.dump_account(account_data)  # 修改数据写回用户ID数据文件
-            #     with open(account_file,'w') as f:
-            #         json.dump(acc_data,f)
-            #
-            #     return True
-            # return True
                 return True
         else:
             print("您要修改的用户 [%s] 不存在！" % account)

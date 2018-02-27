@@ -8,12 +8,13 @@ from core import accounts
 
 def make_transaction(log_obj,account_data,trans_type,amount,**others):
     '''
+    用户金额操作改动数据后存储日志，改动后返回用户数据
     :param log_obj:
     :param account_data:
     :param trans_type:
     :param amount:
     :param others:
-    :return:
+    :return:account_data
     '''
     amount = float(amount)
     if trans_type in settings.TRANSACTION_TYPE:

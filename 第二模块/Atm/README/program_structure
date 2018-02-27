@@ -1,0 +1,56 @@
+.
+├── Atm  # ATM主程目录
+│   ├── __init__.py
+│   ├── README #程序说明文档目录
+│   │	 ├── __init__.py
+│   │	 ├── readme # 程序要求
+│   │    └── program_structure # 程序结构说明文件
+│   ├── api  # ATM程序API目录
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-36.pyc
+│   │   │   └── pay1.cpython-36.pyc
+│   │   └── pay.py # ATM支付api
+│   ├── bin  # ATM执行文件目录
+│   │   ├── __init__.py
+│   │   ├── atm.py  # ATM执行程序，普通用户登录入口
+│   │   └── atm_manager.py  # ATM管理员登录入口
+│   ├── conf  # ATM配置目录
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-36.pyc
+│   │   │   └── settings.cpython-36.pyc
+│   │   └── settings.py  # ATM配置文件
+│   ├── core  # ATM主要逻辑程序目录
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-36.pyc
+│   │   │   ├── accounts.cpython-36.pyc
+│   │   │   ├── auth.cpython-36.pyc
+│   │   │   ├── bill_date.cpython-36.pyc
+│   │   │   ├── db_handler.cpython-36.pyc
+│   │   │   ├── logger.cpython-36.pyc
+│   │   │   ├── main.cpython-36.pyc
+│   │   │   └── transaction.cpython-36.pyc
+│   │   ├── accounts.py  # 用于从文件里加载和存储账户数据
+│   │   ├── auth.py  # 用于帐户认证和帐户操作
+│   │   ├── bill_date.py  # 根据年-月，生成帐单起止时间模块
+│   │   ├── db_handler.py  # 数据库连接引擎
+│   │   ├── logger.py  # 日志记录模块
+│   │   ├── main.py  # 主逻辑程序
+│   │   └── transaction.py  # 记账\还钱\取钱等所有的与账户金额相关的操作模块
+│   ├── db  # 用户数据存储目录
+│   │   ├── __init__.py
+│   │   └── accounts  # 存各个用户的账户数据，一个用户一个文件
+│   │       ├── 100.json  # 一个普通用户账户文件
+│   │       ├── 1001.json  # 一个普通用户账户文件 ( 省略以下多个用户(用户密码abc))
+│   │       └── admin.json  # 一个管理员用户示例文件（用户密码，abc）
+│   ├── docs  # 程序说明文档目录
+│   │   └── __init__.py
+│   └── log  # 日志根目录
+│       ├── __init__.py
+│       ├── access.log  # 用户访问和操作的相关日志
+│       ├── accounts  # 存各个用户的帐单数据，一个用户一个文件
+│       │   └── xxx.bills  # 普通用户的帐单文件
+│       └── transactions.log  # 所有的存取，转账，交易等日志
+

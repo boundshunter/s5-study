@@ -31,12 +31,12 @@ def check_account(account):
     :return:
     '''
     db_path = db_handler.db_handler(settings.DATABASE)
-    account_file = "%s%s.json" %(db_path,account)
-
+    account_file = "%s/%s.json" %(db_path,account)
+    # print(account_file)
     if os.path.isfile(account_file):
         with open(account_file,'r') as f:
             account_data = json.load(f)
-            return account_data
+        return account_data
 
     else:
         return None
@@ -52,8 +52,8 @@ def sign_up():
         account = input("请输入用户名>>>:".strip())
         password = input("请输入密码>>>:".strip())
         user_exist = check_account(account) # return account_data
-
-        if user_exist: # 非空
+        # print("\033[43;1m user_data:%s \033[0m"% user_exist)
+        if user_exist is not None: # 非空
             print("\033[42;1m 用户[%s]已存在，请使用其他用户重新注册\033[0m".center(20,'*') % account)
 
         else:
@@ -65,5 +65,11 @@ def sign_up():
                 'balance': 50000.0,
              }
             accounts.dump_account(account_data)
+
             print("\033[35;1m 您的用户注册成功！\033[0m".center(50,'-'))
+            user_info = '''
+            user:%s
+            password:%s
+            '''%(account_data['user'],account_data['password'])
+            print("您的用户信息%s".center(50,'-')%user_info)
         return True

@@ -22,10 +22,11 @@ user_data = {
 
 def user_login():
 
-    print("welcome to my shopping!")
-    account = input("用户>>>：".strip())
-    password = input("密码>>>:".strip())
+    print("\033[33;1m 欢迎光临 \033[0m".center(50,'-'))
+    account = input("\033[35;1m请输入用户>>>：\033[0m".strip())
+    password = input("\033[35;1m请输入密码>>>:\033[0m".strip())
     acc_data = auth.acc_auth(account,password)
+
     # return True
 
 def user_exit():
@@ -60,5 +61,9 @@ def interactive():
 
 def run():
     print("\033[35;1m welcome to Shopping Mall \033[0m".center(70,'-'))
-    interactive()
+    interactive() # 登录，注册，退出
+    account_data = user_data['account_data']
+    user_name = user_data['user']
 
+    log_type = "shopping"
+    shopping_logger = logger.logger(log_type,username)

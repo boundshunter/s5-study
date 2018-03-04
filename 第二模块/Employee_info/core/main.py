@@ -91,6 +91,10 @@ def add():
                 # return True
 
 def update():
+    '''
+    用户信息修改，写回用户db文件
+    :return:
+    '''
     msg = u'''
     1、用户名
     2、手机号
@@ -98,7 +102,6 @@ def update():
     4、职业
     5、公司名称
     '''
-
     msg_dic = {
     '1':'username',
     '2':'phone', # 11位
@@ -108,29 +111,36 @@ def update():
     '6':'enroll_day'
     }
 
+    #提示输入手机号 (此处需要做位数（11位）限制
     user_phone = input("请输入您要修改的用户手机号>>>:")
     # 判断用户是否存在
     user_info = auth.check_user(user_phone)
+
+    #用户数据更改流程
     if user_info: # Not None  返回了用户信息
-        print(user_info)
-        print(msg)
+        print(msg)  # 打印用户操作项
+        # 提示用户输入项
         change_item = input("请选择您要修改的项目>>>:") # 3
         change_value = input("请输入您要修改的值>>>:")  # 输入不限制格式
-        print(type(change_value))
-        print(user_info[msg_dic[change_item]])   # 定位 字典 key
-        print(user_info[msg_dic[change_item]][change_value])  # 给对应 value 复制
-        print(user_info)
+
+        print("\033[42;1m%s\033[0m" % user_info)  # 打印用户信息
+
+        # print(type(msg_dic[change_item]),msg_dic[change_item])
+        # print(type(change_value),change_value)
+        # print(type(user_info[msg_dic[change_item]]))
+        user_info[msg_dic[change_item]] = change_value  # 给对应的要修改的key 复制 value
+
+        #增加判断，如果修改的是手机号，需要把原手机号文件删除
 
         #将修改值写回文件
         db_file = "%s/%s.json" %(db_path,user_phone)
         with open(db_file,'w') as f:
+            print(user_info)
             json.dump(user_info,f)
-
+        return True
 
     else:
         print("您要修改的用户不存在")
-
-    msg_dic
 
 def delete():
     pass

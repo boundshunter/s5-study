@@ -9,5 +9,6 @@ sys.path.append(BASE_DIR)
 
 from core import main
 
+# 入口主函数
 if __name__ == '__main__':
     main.run()

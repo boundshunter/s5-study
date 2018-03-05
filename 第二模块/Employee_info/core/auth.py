@@ -8,6 +8,7 @@ from core import db_handler
 from conf import settings
 
 
+#  检查用户是否存在
 def check_user(phone):
     '''
     使用手机号对用户唯一性 验证，如果手机号存在则报错。

@@ -7,7 +7,7 @@ from conf import settings
 def logger(log_type):
 
     logger = logging.getLogger(log_type)
-    logger.setLevel(settings.LOG_LOG_LEVEL)
+    logger.setLevel(settings.LOG_LEVEL)
 
     #屏幕打印
     ch = logging.StreamHandler()

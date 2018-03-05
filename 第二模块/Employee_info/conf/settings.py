@@ -17,11 +17,11 @@ LOG_DATABASE = {
     'engine': 'file_storage',  # support mysql,postgresql in the future
     'name': 'accounts',
     'path': "%s/logs" % BASE_DIR,
-    'type':"transactions.log"
+    'type':"transactions.logs"
 }
 
 LOG_LEVEL = logging.INFO
 
 # LOG_TYPES = {
-#     'transaction': 'transactions.log'
+#     'transaction': 'transactions.logs'
 # }

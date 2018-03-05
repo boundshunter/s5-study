@@ -10,9 +10,12 @@ import glob
 from core import db_handler
 from core import auth
 from conf import settings
+from core import logger
 
-#用户存储在同一个db file 全局路径设置
+# 用户存储在同一个db file 全局路径设置
 db_path = db_handler.db_handler(settings.DATABASE)
+# 定义日志级别
+transaction_logger = logger.logger('INFO')
 
 def run():
 
@@ -67,12 +70,12 @@ def select():
     while True:
         print(msg)
         num = input("请输入查询类型编号：")
-
+        count = 0 # 初始化 次数统计
         os.chdir(db_path)
         if num in msg_dic: # 判断输入编号是否存在
             term = input("请输入[]内您的条件:%s".strip() % msg_dic[num])
             if num == '1':  # 判断第一个条件 age 的输出结果
-
+                # count = 0
                 for file in glob.glob("*.json"):
                     with open(file,'r',encoding='utf8') as f:
                         term_db = json.load(f)   # 把所有文件结果循环输出
@@ -81,14 +84,17 @@ def select():
                     term = int(term)
 
                     if term_age > term:  # 判断条件
+                        count += 1
                         temp1_msg = '''
                         -------------查询结果-----------
                         用户名:%s
                         年龄:%s
                         '''% (term_db['username'],term_db['age'] )
                         print(temp1_msg) # 打印符合条件的结果
+                print("%s result has been found!"%count) # 打印匹配结果个数
 
             if num == '2':
+                # count = 0
                 for file in glob.glob("*.json"):
                     with open(file,'r',encoding='utf8') as f:
                         term2_db = json.load(f)  # 加载所有文件数据
@@ -96,6 +102,7 @@ def select():
                     term_dept = term2_db['vocation']  # 获取部门
 
                     if term_dept == term: # 判断部门是否符合条件
+                        count += 1
                         temp2_msg = '''
                         -------------查询结果-----------
                         用户名:%s
@@ -107,8 +114,10 @@ def select():
                         '''\
                                     % ( term2_db['username'],term2_db['phone'],term2_db['age'],term2_db['vocation'],term2_db['company'],term2_db['enroll_day'] )
                         print(temp2_msg)  # 将符合条件的结果打印
+                print("%s results has been found!"%count) # 打印匹配结果个数
 
             if num == '3':
+
                 for file in glob.glob("*.json"):
                     with open(file,'r',encoding='utf8') as f:
                         term3_db = json.load(f)
@@ -116,6 +125,7 @@ def select():
                     term_date = term3_db['enroll_day'].split()[0].split('-')[0]  # 获取条件中日期项，取日期年-月-日
                     # print(type(term_date),term_date,type(term),term)
                     if term_date == term: # 判断符合条件日期
+                        count += 1
                         temp3_msg = '''
                         -------------查询结果-----------
                         用户名:%s
@@ -127,7 +137,7 @@ def select():
                         '''\
                                     % ( term3_db['username'],term3_db['phone'],term3_db['age'],term3_db['vocation'],term3_db['company'],term3_db['enroll_day'] )
                         print(temp3_msg)
-
+                print("%s results has been found!"%count) # 打印匹配结果个数
         else:
             print("您输入的条件不存在，请重新选择")
             continue
@@ -160,15 +170,18 @@ def add():
         db_file = "%s/%s.json" %(db_path,phone)
 
         ck_user = auth.check_user(phone) # 检查用户是否存在，手机号唯一
+
         if ck_user: # 返回非空 手机号唯一判断 存在该手机号
             print("该用户手机号已经存在，请使用其他手机号！")
-            # print("按[b]返回上一层，或者按[q]退出程序")
             continue
+
         else:
             with open(db_file,'w') as f:
                 json.dump(add_info_dic,f)  # 新用户数据写入文件
                 print(add_info_dic)  # 打印新增用户信息
+
                 return True
+
 
 def update():
     '''

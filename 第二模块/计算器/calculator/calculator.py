@@ -25,12 +25,13 @@ def mult_div(l,x):                                   # 定义最小乘除法单�
     del l[a-1],l[a-1],l[a-1]                         # 符号前后和运算符共占用 3个位置，左边数字为第一个位置，删除一个元素，后面元素自动提前一个位置
                                                      # 连续删除 3个元素 即 1 * 2 三个元素都删除
     l.insert(a-1,str(rlt))                                # 删除位置 替换为 三个元素运算结果 ，插入列表中
-    print(l)                                         # 打印列表查看结果
+    # print(l)                                         # 打印列表查看结果
 
 # mult_div(l,'*')
 
 def func(args):
-    print("args:",args)
+    # print("args:",args)
+    # print(l)
     sum = 0
     while l:
         if '*' in l and '/' not in l:             # 如果只有乘 没有 除
@@ -52,24 +53,24 @@ def func(args):
             if l[0] == '-':                       # 判断 列表第一个元素是否为 - （负号）
                 l[0] = l[0]+l[1]                  # 将第一个元素 替换为 第一个元素和第二个元素合并后结果
                 del l[1]                          # 然后将第二个 无用 元素 删除
-            print(l)                              # 打印 合并首位负数后的列表
+            # print("----------",l)                              # 打印 合并首位负数后的列表
             sum += float(l[0])                    # 将存在的负数合并后只剩下 加减法运算
-
+            # print("0位负号的算式:",sum)
             for i in range(1,len(l),2):         # l列表内 从第一个元素到 最后一个元素 遍历 步长为2 取运算符 i 位置
                 if l[i] == '+' and l[i+1] != "-":
-                    print(sum)
+                    # print("打印符号：",l[i])
                     sum += float(l[i+1])
-                    # print("i+:",i,sum)
-
-                elif l[i] == "+" and l[i+1] == "-":
-                    sum -= float(l[i+2])
-
+                    # print(sum)
+                elif l[i] == "+" and l[i+1] == "-": # 判断 i+1 是否为 -
+                    sum -= float(l[i+2])             # 减法
+                    # print("+挨着-:",l[i])
                 elif l[i] == "-" and l[i+1] != "-":
                     sum -= float(l[i+1])
-
-                elif l[i] == "+" and l[i+1] == "-":
+                    # print("+不挨着-:",l[i])
+                elif l[i] == "-" and l[i+1] == "-":
                     sum += float(l[i+2])
             break
+    # print(sum)
     return sum
 
 def calc(args):
@@ -77,35 +78,41 @@ def calc(args):
     expression=args
     pos = []
     rlt = 0
-    if '(' not in expression:
-       rlt = func(expression)
-       return rlt
+    while True:
+        if '(' not in expression:
 
-    else:
-        for i in range(len(expression)):
-            if expression[i] == '(':
-                pos.append(i)                    # 记录 '(' 出现的位置，并记录到新的列表 pos中
-                print(pos)
+            rlt = func(expression)
+            # print("not )")
+            print(rlt)
+            # return rlt
+            return rlt
 
-            elif expression[i] == ')':
-                rlt_tmp = 0                      # 初始化临时结果，用于将临时的结果记录
-                sub = expression[pos[-1]+1:i]    # 取pos最后一个元素'('位置 的下一位 pos[-1]+1
-                # sub = expression[pos[len(pos)-1]+1:i]
-                print(sub)
-                rlt_tmp = func(sub)
-                expression = expression[0:pos[-1]-1]+str(rlt_tmp)+expression[i+1:-1]
-                                                 # 将所有（）内算式替换为sub的值，然后将(前的元素，替换后元素，
-                                                 #）后元素合并为新的列表，赋值给 expression
-                print(expression)
-                pos.pop(-1)
-                # print(rlt_tmp)
-    return expression
+        else:
+            print("存在 ()")
+            for i in range(len(expression)):
+                if expression[i] == '(':
+                    pos.append(i)                    # 记录 '(' 出现的位置，并记录到新的列表 pos中
+                    print(pos)
+
+                elif expression[i] == ')':
+                    rlt_tmp = 0                      # 初始化临时结果，用于将临时的结果记录
+                    sub = expression[pos[-1]+1:i]    # 取pos最后一个元素'('位置 的下一位 pos[-1]+1
+                    # sub = expression[pos[len(pos)-1]+1:i]
+                    print(sub)
+                    rlt_tmp = func(sub)
+                    expression = expression[0:pos[-1]-1]+str(rlt_tmp)+expression[i+1:-1]
+                                                     # 将所有（）内算式替换为sub的值，然后将(前的元素，替换后元素，
+                                                     #）后元素合并为新的列表，赋值给 expression
+                    print(expression)
+                    pos.pop()
+                    # print(rlt_tmp)
+            return rlt
 
 
 if __name__ == '__main__':
-    expression=input("请输入您要计算的算式>>:")
-    l = re.findall('[\d\.]+|\+|-|\*|/',expression)
-    calc(expression)
+    args=input("请输入您要计算的算式>>:")
+    l = re.findall('[\d\.]+|\+|-|\*|/',args)
+    calc(args)
 
 
 

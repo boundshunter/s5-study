@@ -58,13 +58,16 @@ def calculate(expression):
             ex.append(i) #ex=[6,7]
             print("\033[42;1m   (   \033[0m",ex)
         elif expression[i]==')': #14
-            # temp=0
+            #  temp=0
+            #  len(ex)-1 列表从1开始，长度-1为最后一个元素位置，+1为最后一个（的下一个元素位置，一直到第一个')'
+            #
             sub=expression[ex[len(ex)-1]+1:i]
             print("\033[41;1m sub  \033[0m",sub)
             print(expression)
             temp=fun(sub)
             print("\033[43;1m 存放临时结果 \033[0m",temp)
             expression=expression[0:ex[len(ex)-1]]+str(temp)+expression[i+1:len(expression)+1]
+            #  删除列表最后一个元素
             ex.pop()
             return calculate(expression)
 

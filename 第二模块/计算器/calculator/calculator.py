@@ -2,8 +2,9 @@
 #-*- coding:utf-8 -*-
 # Author:summer_han
 
-
 import re
+import sys
+
 
 def mult_div(l,x):
     '''
@@ -18,24 +19,28 @@ def mult_div(l,x):
     if x == '*' and l[p+1] != "-":
         r = float(l[p-1]) * float(l[p+1])
     elif x == '*' and l[p+1] == "-":
-        r = -(float(l[p-1]) * float(l[p+1]))
+        r = -(float(l[p-1]) * float(l[p+2]))
     # 定义 x 为 / 时 x 的下一位 是否为 -,如果 为 - 则 为负数
     elif x == '/' and l[p+1] != "-":
         r = float(l[p-1]) / float(l[p+1])
     elif x == '/' and l[p+1] == "-":
-        r = -(float(l[p-1]) / float(l[p+1]))
+        r = -(float(l[p-1]) / float(l[p+2]))
 
     # 三个位置 计算后 ，删除 3个位置的元素
     del l[p-1],l[p-1],l[p-1]
     # 将 计算结果插入到删除位置
     l.insert(p-1,str(r))
-    # 打印计算后的列表
-    # print(l)
 
 
 def func(exps):
+    '''
+    函数计算主体，负责计算 只有加减乘除的运算
+    :param exps:算式参数
+    :return:返回计算结果
+    '''
+    #查找exps列表中，匹配数字 和数字. 的加减乘除，变成列表
     rel=re.findall('([\d\.]+|/|-|\+|\*)',exps)
-    print("打印初始列表",rel)
+    # print("打印初始列表",rel)
     # 当rel为真时
     while True:
         #  既有乘法又有除法运算符时，判断乘除法运算符位置，位置小的优先计算
@@ -90,30 +95,59 @@ def func(exps):
             return sum
 
 # expression = '-100.5+40*5/2-3*2*2/4+9'
-
 def calculate(exps):
+    '''
+    负责算式的分解，循环将（）内的算式计算，最后将结果变成加减乘除运算在计算出结果
+    :param exps:用户输入的算式
+    :return:算式结果
+    '''
+    #定义提取 括号类元素的临时列表
     tmpex = []
     rlt = 0
     if '(' not in exps:
         rlt = func(exps)
-        print(rlt)
+        # print(rlt)
         return rlt
 
     else:
+        # len(exps) 长度 从 0 开始
         for i in range(len(exps)):
             if exps[i] == '(':
-                print(i,exps[i+1])
                 tmpex.append(i)
-                print(tmpex)
+                # print("\033[41;1m ( 的位置:\033[0m",tmpex)
             elif exps[i] == ')':
-                # print("tmpex 长度:%s,tmpex元素'('位置 :%s"  %  (len(tmpex),tmpex[len(tmpex)-1]))
-                # subexpr = exps[tmpex[len(tmpex)]:i]
-                print("tmpex 长度:%s,tmpex元素'('位置 :%s"
-                      % (len(tmpex),tmpex[len(tmpex)-1]),exps[tmpex[len(tmpex)-1]+1:i])
+                # print("\033[35;1m括号取值位置判断：\033[0m",(tmpex[len(tmpex)-1])+1,i)
 
-exps = '1 - 2 * ( (60-30 +(-40/5+3) * (9-2*5/3 + 7 /3*99/4*2998 +10 * 568/14 )) - (-4*3)/ (16-3*2) )'
+                # len(tmpex) 长度, len(tmpex)-1 为列表tmpex最后一个元素，因为从0开始计算第一个元素；
+                # (tmpex[len(tmpex)-1])+1 为最后一个元素'('下一位的位置，在 exps 中取值，i为第一个出现的')'
 
-calculate(exps)
+                subexpr = exps[tmpex[len(tmpex)-1]+1:i]  # 19-26
+                # print("\033[42;1m子运算式\033[0m",subexpr)
+                temp=func(subexpr)
+                # print("\033[43;1m 存放临时结果 \033[0m",temp)
+                # 初始化 exps 列表
+                # len(tmpex-1) 为tmpex长度的最后一个元素 在exps 中 0到最后一个元素 )的位置，不取 )
+                # 和 第一个最内层（）的字运算结果 str(temp)合并，在和exps的[i+1]位到最后一个元素合并
+                # 作为新的 exps ,以此类推循环 ，每次循环计算 str(temp)的值
+                exps = exps[0:tmpex[len(tmpex)-1]]+str(temp)+exps[i+1:]
+                # print("第一段",exps[0:tmpex[len(tmpex)-1]])
+                # print("第二段",str(temp))
+                # print("第三段",exps[i+1:len(exps)+1])
+                #  删除tmpex中最后一个元素
+                tmpex.pop()
+                return calculate(exps)
 
+if __name__ == '__main__':
+    while True:
+        exps = input("\033[31;1m请输入您的要计算的算式：\033[0m")
+        print("\033[35;1mcalculate程序运行计算结果为:%s \neval执行结果为:%s\033[0m"%(calculate(exps),eval(exps)))
 
+        flag = input("按【q】退出程序，或者按任意键继续:")
+        if flag == 'q':
+            sys.exit("\033[42;1mExit the calculate program,Bye！\033[0m".center(50,'-'))
+        else:
+            continue
 
+# exps = '2+10-((6-3)*2+(5-2)*3)'
+# exps = '-100.5+40*5/2-3*2*2/4+9'
+# exps = '1 - 2 * ( (60-30 +(-40/5+3) * (9-2*5/3 + 7 /3*99/4*2998 +10 * 568/14 )) - (-4*3)/ (16-3*2) )'

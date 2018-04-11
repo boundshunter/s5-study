@@ -2,7 +2,7 @@
 # __author__:"Alex Li"
 
 '''
-core program handle module , handle all the user interaction stuff
+main program handle module , handle all the user interaction stuff
 
 '''
 

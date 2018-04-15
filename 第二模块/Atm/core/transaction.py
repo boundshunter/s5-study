@@ -16,10 +16,15 @@ def make_transaction(log_obj,account_data,trans_type,amount,**others):
     :param others:
     :return:account_data
     '''
+    # 金额转换浮点类型
     amount = float(amount)
-    if trans_type in settings.TRANSACTION_TYPE:
-        interest = amount * settings.TRANSACTION_TYPE[trans_type]['interest']
-        old_balance = account_data['balance']
+
+    #  判断 交易类型
+    if trans_type in settings.TRANSACTION_TYPE:  # 交易类型存在
+        interest = amount * settings.TRANSACTION_TYPE[trans_type]['interest']  # 定义利息
+        old_balance = account_data['balance']   # 初始化 交易前的值
+
+        #  根据交易类型，对金额进行加减操作，并减除带有利息的操作
         if settings.TRANSACTION_TYPE[trans_type]['action'] == 'plus':
             new_balance = old_balance + amount + interest
             account_data['balance'] = new_balance
@@ -34,6 +39,7 @@ def make_transaction(log_obj,account_data,trans_type,amount,**others):
             account_data['balance'] = new_balance
             accounts.dump_account(account_data)
         # log_obj = transaction_logger = logger.logger('transaction')
+        # 将操作记录到日志文件
         log_obj.info("accounts:%s   action:%s   amount:%s   interest:%s "
                      %(account_data['id'],trans_type,amount,interest))
         return account_data

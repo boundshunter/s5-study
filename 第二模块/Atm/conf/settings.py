@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 # Author:summer_han
+
+# atm 程序配置文件
+
 import logging
 import os
 

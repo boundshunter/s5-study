@@ -20,8 +20,11 @@ def get_bill_time(year_month):
     # print(the_bill_day)
     bill_begin_time = datetime.datetime.strptime(the_bill_day, "%Y-%m-%d")  # 给出的年-月帐单开始时间
     # print(bill_begin_time)
+    # 定义年月
     year = bill_begin_time.year
     month = bill_begin_time.month
+
+    # 判断跨年
     if month == 12:
         month = 1
         year += 1

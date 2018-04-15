@@ -9,6 +9,7 @@ def dump_account(account_data):
     :param account_data:
     :return:
     '''
+    #  获取用户数据文件存储目录
     db_path = db_handler.db_handler(settings.DATABASE)
     account_file = "%s/%s.json" % (db_path, account_data['id'])
 

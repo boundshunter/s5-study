@@ -13,6 +13,7 @@ from core import main
 # 取金额参数
 amount = sys.argv[1]
 
+# 执行接口程序调用，定义退出
 rlt = main.payApi(amount)
 
 if rlt:

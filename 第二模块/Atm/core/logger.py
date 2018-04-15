@@ -61,6 +61,8 @@ def show_log(account,log_type,log_day):
     log_file = "%s/logs/%s" % (settings.BASE_DIR, settings.LOG_TYPES[log_type]) # log_type = transaction
     file = open(log_file,'r')
     print(" account \033[32;1m[%s]\033[0m transaction ".center(60, "-")% account)
+
+    # 根据获取的时间显示相应的日志
     for line in file:
         log_time = datetime.datetime.strptime(line.split(" - ")[0],"%Y-%m-%d %H:%M:%S")
         uid = line.split( )[7].split(":")[1]  # uid 默认 str 型，转换成 int

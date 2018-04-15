@@ -10,5 +10,6 @@ sys.path.append(BASE_DIR)
 
 from core import main
 
+#  ATM 管理员入口
 if __name__ == '__main__':
     main.manager_run()

@@ -2,12 +2,13 @@
 #-*- coding:utf-8 -*-
 # Author:summer_han
 
-# import os
+import os
 import sys
 import datetime
-import re
-# BASE_DIR = os.path.dirname( os.path.dirname( os.path.abspath(__file__)))
-# sys.path.append(BASE_DIR)
+import subprocess
+
+BASE_DIR = os.path.dirname( os.path.dirname( os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
 
 from core import auth
 from core import accounts
@@ -21,6 +22,10 @@ user_data = {
     'is_authorized':None,
     'account_data':None
 }
+
+# 支付接口调用 方式
+atm_api = os.path.dirname(BASE_DIR) + "/Atm/api/pay_api.py"
+
 
 def userLogin():
     '''
@@ -189,13 +194,32 @@ def listL1():
 
             if float(L1_Info_Dic[choice][1]) > acc_data['balance']:
                 charge_YN = input("您的余额不足，是否充值,按'y'进行充值，其他任意键继续购物!".strip())
+                print("\033[41;1m请使用您的银行账号进行充值！\033[0m")
 
                 if charge_YN == 'y':
+                    #  调用 支付 接口 充值
                     charge = input("请输入您要充值的金额:".strip())
-                    acc_data['balance'] = acc_data['balance'] + float(charge)
-                    accounts.dumpAccount(acc_data)
-                    shopCar[L1_Info_Dic[choice][0]] = L1_Info_Dic[choice][1]
-                    print("您当前余额 >>>: [ \033[42;1m%s\033[0m ] "%acc_data['balance'])
+                    if charge.isdigit():
+                        comm = "python " + atm_api + " " + charge
+                        pgm = subprocess.Popen(comm,shell=True)
+                        stdout,stderr = pgm.communicate()
+                        print(stdout,stderr)
+                        if pgm.returncode == 0:
+
+                            print("付款成功",pgm.returncode)
+                            acc_data['balance'] += float(charge)
+                            accounts.dumpAccount(acc_data)
+                            print("您的余额为:%s"%acc_data['balance'])
+
+                        else:
+                            print("充值失败！")
+
+                    else:
+                        print("你的输入[%s]有误，请输入数字！" % charge)
+                    # acc_data['balance'] = acc_data['balance'] + float(charge)
+                    # accounts.dumpAccount(acc_data)
+                    # shopCar[L1_Info_Dic[choice][0]] = L1_Info_Dic[choice][1]
+                    # print("您当前余额 >>>: [ \033[42;1m%s\033[0m ] "%acc_data['balance'])
 
                 else:
                     continue

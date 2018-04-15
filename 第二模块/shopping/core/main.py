@@ -10,6 +10,7 @@ sys.path.append(BASE_DIR)
 from core import auth
 from core import logger
 
+
 # access logger
 access_logger = logger.logger('access')
 
@@ -26,8 +27,10 @@ def user_login():
     account = input("\033[35;1m请输入用户>>>：\033[0m".strip())
     password = input("\033[35;1m请输入密码>>>:\033[0m".strip())
     acc_data = auth.acc_auth(account,password)
-
-    # return True
+    return acc_data
+    # acc_data = auth.acc_auth(account,password)
+    # print("acc_data_user_login:",acc_data)
+    # return acc_data
 
 def user_exit():
     print("\033[35;1m Welcome back again,Goodbye! \033[0m".center(30,'-'))
@@ -42,7 +45,7 @@ def interactive():
     '''
     menu_dict = {
         '1':"user_login()",
-        '2':"auth.sign_up()",
+        '2':"auth.sign_up(user_data)",
         '3':"user_exit()"
     }
 
@@ -59,11 +62,12 @@ def interactive():
             continue
 
 
+
 def run():
     print("\033[35;1m welcome to Shopping Mall \033[0m".center(70,'-'))
-    interactive() # 登录，注册，退出
-    account_data = user_data['account_data']
-    user_name = user_data['user']
+    rlt=interactive() # 登录，注册，退出
+    print("rlt",rlt)
+    #return acc_data_user_login: {'enroll_date': '2018-03-03 12:22:31', 'user': 'test', 'password': 'test', 'status': 0, 'balance': 50000.0}
+    # account_data = get_user_data()
+    # print("111111111111",account_data)
 
-    log_type = "shopping"
-    shopping_logger = logger.logger(log_type,username)

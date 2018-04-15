@@ -4,9 +4,9 @@
 import logging
 
 # 日志输出到文件中
-# logging.basicConfig(filename="logging.log",level=logging.DEBUG,format='%(asctime)s %(message)s ',datefmt='%Y-%m-%d %H:%M:%S')
+# logging.basicConfig(filename="logging.logs",level=logging.DEBUG,format='%(asctime)s %(message)s ',datefmt='%Y-%m-%d %H:%M:%S')
 # level (DEBUG,INFO,WARNING,ERROR,CRITICAL)
-# logging.basicConfig(filename="log1.log",level=logging.INFO,format='%(asctime)s %(levelname)s  %(filename)s %(message)s',datefmt='%Y-%m-%d %I:%M:%S')
+# logging.basicConfig(filename="log1.logs",level=logging.INFO,format='%(asctime)s %(levelname)s  %(filename)s %(message)s',datefmt='%Y-%m-%d %I:%M:%S')
 # 时间格式 自定义
 # 固定时间格式
 # 时间和日志空格分隔
@@ -31,7 +31,7 @@ import logging
 # import logging
 
 #create logger
-logger = logging.getLogger('test-log')
+logger = logging.getLogger('test-logs')
 logger.setLevel(logging.DEBUG)
 
 # 创建屏幕输出，定义 日志输出 级别
@@ -39,7 +39,7 @@ ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)  # debug 级别以下都输出到屏幕
 
 # 创建文件输出，定义 日志输出 级别
-fh = logging.FileHandler("access.log",encoding="utf-8") # 写入文件日志支持中文
+fh = logging.FileHandler("access.logs",encoding="utf-8") # 写入文件日志支持中文
 fh.setLevel(logging.ERROR)  # 只记录 error 和更严重级别 到日志
 
 # 建立 formatter

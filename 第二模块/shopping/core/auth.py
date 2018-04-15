@@ -10,6 +10,12 @@ from conf import settings
 from core import accounts
 
 def acc_auth(account,password):
+    '''
+    认证成功返回用户数据
+    :param account:
+    :param password:
+    :return: account_data eg:{'enroll_date': '2018-04-09 16:41:09', 'user': 'tech', 'password': 'tech', 'status': 0, 'balance': 50000.0}
+    '''
     db_path = db_handler.db_handler(settings.DATABASE)
     account_file = "%s/%s.json" %(db_path,account)
 
@@ -17,6 +23,8 @@ def acc_auth(account,password):
         with open(account_file,'r') as f:
             account_data = json.load(f)
             if account_data['password'] == password:
+                # print("acc_data:",account_data)
+
                 return account_data
             else:
                 print("\033[32;1m您的密码有误,请重新输入\033[0m")
@@ -42,7 +50,7 @@ def check_account(account):
     else:
         return None
 
-def sign_up():
+def sign_up(user_data):
     '''
     用户注册，判断用户是否存在，不存在则注册
     :return:
@@ -53,7 +61,6 @@ def sign_up():
         account = input("请输入用户名>>>:".strip())
         password = input("请输入密码>>>:".strip())
         user_exist = check_account(account) # return account_data
-        # print("\033[43;1m user_data:%s \033[0m"% user_exist)
         if user_exist is not None: # 非空
             print("\033[42;1m 用户[%s]已存在，请使用其他用户重新注册\033[0m".center(20,'*') % account)
 
@@ -75,4 +82,10 @@ def sign_up():
             余额:%s
             '''%(account_data['user'],account_data['password'],account_data['balance'])
             print("%s" % user_info )
+            user_data['is_authorized'] = True
+            user_data['user'] = account
+            user_data['account_data'] = account_data
+            print("user_data:",user_data)
+
+
         return True

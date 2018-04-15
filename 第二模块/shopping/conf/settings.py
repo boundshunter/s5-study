@@ -15,6 +15,6 @@ DATABASE = {
 
 LOG_LEVEL = logging.INFO
 LOG_TYPES = {
-    'shopping': 'shopping.log',
-    'access': 'access.log',
+    'shopping': 'shopping.logs',
+    'access': 'access.logs',
 }

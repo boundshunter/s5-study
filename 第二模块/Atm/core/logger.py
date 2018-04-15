@@ -26,7 +26,7 @@ def logger(log_type):
     ch = logging.StreamHandler()
     ch.setLevel(settings.LOG_LEVEL)  # 屏幕 输出 info
 
-    # 日志文件输出 log file output
+    # 日志文件输出 logs file output
     log_file = "%s/logs/%s" % (settings.BASE_DIR,settings.LOG_TYPES[log_type])
     # print(log_file)
     fh = logging.FileHandler(log_file)

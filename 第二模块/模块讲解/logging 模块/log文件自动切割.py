@@ -8,7 +8,7 @@ logger = logging.getLogger("TEST")
 # print(logger)
 
 # 定义文件名
-log_file = "rotate.log"
+log_file = "rotate.logs"
 
 # 定义文件存储 10字节，最多备份3个文件，多余自动删除
 # fh = handlers.RotatingFileHandler(filename=log_file,maxBytes=10,backupCount=3)

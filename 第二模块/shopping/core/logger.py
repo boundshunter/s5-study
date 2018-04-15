@@ -5,7 +5,7 @@
 import logging
 from conf import settings
 
-def logger(log_type,username):
+def logger(log_type,*username):
 
     #设置logger 和 日志级别
     logger = logging.getLogger(log_type)

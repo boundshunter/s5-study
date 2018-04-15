@@ -37,6 +37,23 @@ def get_user_data():
     else:
         return None
 
+def payApi(amount):
+    '''
+
+    :param amount:
+    :return:
+    '''
+    amount = int(amount)
+    acc_data = get_user_data()
+    print("\033[42[1m payApi \033[0m",acc_data)
+    account_data = accounts.load_balance(acc_data['account_id'])
+    if amount > 0:
+        new_balance = transaction.make_transaction(transaction_logger,account_data,'pay',amount)
+        if new_balance:
+            return True
+    else:
+        print("你的输入 [%s] 有误，请输入数字金额"% amount)
+        return None
 def withdraw(acc_data):
     '''
     显示余额，判断是否可以取款，记录日志

@@ -1,0 +1,47 @@
+2018-02-02 10:40:15 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 10:43:09 - transaction - INFO - accounts:100   action:withdraw   amount:101.0   interest:5.050000000000001 
+2018-02-02 10:45:03 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 10:49:57 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 11:07:15 - transaction - INFO - accounts:100   action:withdraw   amount:1000.0   interest:50.0 
+2018-02-02 11:11:57 - transaction - INFO - accounts:100   action:withdraw   amount:1000.0   interest:50.0 
+2018-02-02 11:12:59 - transaction - INFO - accounts:100   action:withdraw   amount:1000.0   interest:50.0 
+2018-02-02 11:14:43 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 11:17:01 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 13:52:08 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 13:54:56 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 13:55:40 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 13:57:16 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 13:57:59 - transaction - INFO - accounts:100   action:withdraw   amount:150.0   interest:7.5 
+2018-02-02 13:59:12 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 14:01:14 - transaction - INFO - accounts:100   action:withdraw   amount:10.0   interest:0.5 
+2018-02-02 14:02:54 - transaction - INFO - accounts:100   action:withdraw   amount:0.0   interest:0.0 
+2018-02-02 14:02:58 - transaction - INFO - accounts:100   action:withdraw   amount:0.0   interest:0.0 
+2018-02-02 14:03:47 - transaction - INFO - accounts:100   action:withdraw   amount:0.0   interest:0.0 
+2018-02-02 14:04:42 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 14:06:55 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 14:07:25 - transaction - INFO - accounts:100   action:withdraw   amount:1.0   interest:0.05 
+2018-02-02 14:08:09 - transaction - INFO - accounts:100   action:withdraw   amount:1.0   interest:0.05 
+2018-02-02 14:08:48 - transaction - INFO - accounts:100   action:withdraw   amount:100.0   interest:5.0 
+2018-02-02 14:11:50 - transaction - INFO - accounts:100   action:withdraw   amount:1.0   interest:0.05 
+2018-02-02 14:11:59 - transaction - INFO - accounts:100   action:withdraw   amount:2.0   interest:0.1 
+2018-02-02 14:12:31 - transaction - INFO - accounts:100   action:withdraw   amount:1.0   interest:0.05 
+2018-02-02 14:12:39 - transaction - INFO - accounts:100   action:withdraw   amount:1.0   interest:0.05 
+2018-02-02 14:13:38 - transaction - INFO - accounts:100   action:withdraw   amount:33.0   interest:1.6500000000000001 
+2018-02-02 14:29:37 - transaction - INFO - accounts:100   action:repay   amount:1000.0   interest:0.0 
+2018-02-02 14:32:06 - transaction - INFO - accounts:100   action:repay   amount:1000.0   interest:0.0 
+2018-02-02 14:32:41 - transaction - INFO - accounts:100   action:repay   amount:100.0   interest:0.0 
+2018-02-02 14:32:57 - transaction - INFO - accounts:100   action:repay   amount:100.0   interest:0.0 
+2018-02-02 15:22:44 - transaction - INFO - accounts:100   action:repay   amount:10000.0   interest:0.0 
+2018-02-02 18:33:44 - transaction - INFO - accounts:100   action:transfer   amount:1000.0   interest:50.0 
+2018-02-02 18:33:44 - transaction - INFO - accounts:1001   action:receive   amount:1000.0   interest:0.0 
+2018-02-02 18:35:12 - transaction - INFO - accounts:100   action:transfer   amount:1000.0   interest:50.0 
+2018-02-02 18:35:12 - transaction - INFO - accounts:1001   action:receive   amount:1000.0   interest:0.0 
+2018-02-02 18:39:00 - transaction - INFO - accounts:100   action:transfer   amount:500.0   interest:25.0 
+2018-02-02 18:39:00 - transaction - INFO - accounts:1002   action:receive   amount:500.0   interest:0.0 
+2018-02-02 18:44:39 - transaction - INFO - accounts:1001   action:transfer   amount:1000.0   interest:50.0 
+2018-02-02 18:44:39 - transaction - INFO - accounts:100   action:receive   amount:1000.0   interest:0.0 
+2018-02-03 11:54:16 - transaction - INFO - accounts:100   action:save   amount:1000.0   interest:0.0 
+2018-02-03 17:47:46 - transaction - INFO - 123
+2018-02-03 17:48:30 - transaction - INFO - 123
+2018-02-03 17:55:05 - transaction - INFO - 123
+2018-02-03 17:55:46 - transaction - INFO - 123

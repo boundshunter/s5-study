@@ -30,7 +30,7 @@ def make_transaction(log_obj,account_data,trans_type,amount,**others):
             if new_balance < 0:
                 print("\033[32;1m 您的信用额度为:[%s],您的额度不支持本次操作[-%s],您当前的余额为:[%s]\033[0m"
                       %(account_data['credit'],(amount +interest),old_balance))
-                return True
+                return False
             account_data['balance'] = new_balance
             accounts.dump_account(account_data)
         # log_obj = transaction_logger = logger.logger('transaction')

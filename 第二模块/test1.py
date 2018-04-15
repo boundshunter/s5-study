@@ -14,10 +14,12 @@
     worksheet.write_column("D3", data[2])
 
 '''
-# 当前日期
-import time
-print(time.time())
+# # 当前日期
+# import time
+# print(time.time())
+#
+# print(time.localtime(time.time()))
+#
+# print(time.strftime('%Y/%m/%d'))
 
-print(time.localtime(time.time()))
-
-print(time.strftime('%Y/%m/%d'))
+print(1+(2+(3*(4+5))+6))

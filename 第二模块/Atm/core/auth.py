@@ -39,7 +39,7 @@ def acc_auth(account,password):
             status = account_data['status']
             if datetime.datetime.now() > exp_time_stamp:
                 # print(datetime.datetime.now(),exp_time_stamp)
-                print("\033[32;1m您的账户 [%s] 已于 [%s] 过期，请联系管理员申请新的卡片！\033[0m" % (account,account_data['expire_date']) )
+                print("\033[32;1m您的账户 [%s] 已于 [%s] 过期，请联系管理员申请新卡！\033[0m" % (account,account_data['expire_date']) )
             elif status == 0  or status == 8:
                 # print(account_data)
                 return account_data

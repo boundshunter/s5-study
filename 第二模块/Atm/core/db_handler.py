@@ -9,8 +9,8 @@
 def file_handler(conn_parms):
     '''
     获取文件路径
-    :param conn_parms:
-    :return:
+    :param conn_parms: 例：settings.DATABASE 字典
+    :return:  db_path
     '''
     db_path = '%s/%s'%(conn_parms['path'],conn_parms['name'])
     return db_path

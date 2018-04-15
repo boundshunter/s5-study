@@ -17,35 +17,6 @@ db_path = db_handler.db_handler(settings.DATABASE)
 # 定义日志级别
 transaction_logger = logger.logger('INFO')
 
-def run():
-
-    msg = u'''
-    \033[32;1m------------操作选项----------
-    1、查询用户信息
-    2、增加用户
-    3、修改用户信息
-    4、删除用户
-    5、退出
-    \033[0m
-        '''
-
-    msg_dic = {
-        '1':"select()",
-        '2':"add()",
-        '3':"update()",
-        '4':"delete()",
-        '5':"log_out()"
-    }
-    go_flag = True
-    while go_flag:
-        print(msg)
-        user_choice = input("\033[35;1m请输入您的选择>>>:\033[0m")
-
-        if user_choice in msg_dic:
-            go_flag = eval(msg_dic[user_choice])
-
-        else:
-            print("\033[43;1m您输入的选项有误，请重新输入！\033[0m")
 
 def select():
     '''
@@ -69,7 +40,7 @@ def select():
 
     while True:
         print(msg)
-        num = input("请输入查询类型编号：")
+        num = input("请输入查询类型编号：".strip())
         count = 0 # 初始化 次数统计
         os.chdir(db_path)
         if num in msg_dic: # 判断输入编号是否存在
@@ -152,15 +123,15 @@ def add():
     while True:
         # ck_user = auth.check_user()  # 检测用户是否存在，如果存在返回用户已存在和信息
         curr_day = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        username = input("用户名>>>:")
-        phone = input("手机号>>>:")
-        age = input("年龄>>>:")
-        vocation = input("职业>>>:")
-        company = input("公司名>>>:")
+        username = input("用户名>>>:".strip())
+        phone = input("手机号>>>:".strip())
+        age = input("年龄>>>:".strip())
+        vocation = input("职业>>>:".strip())
+        company = input("公司名>>>:".strip())
 
         add_info_dic = {
             'username':username,
-            'phone':phone, # 11位
+            'phone':phone, # 11位数字
             'age':age,
             'vocation':vocation,
             'company':company,
@@ -205,7 +176,7 @@ def update():
     }
 
     #提示输入手机号 (此处需要做位数（11位）限制
-    user_phone = input("请输入您要修改的用户手机号>>>:")
+    user_phone = input("请输入您要修改的用户手机号>>>:".strip())
     # 判断用户是否存在
     user_info = auth.check_user(user_phone)  # 用户存在则返回用户信息
 
@@ -213,8 +184,8 @@ def update():
     if user_info: # Not None  返回了用户信息
         print(msg)  # 打印用户操作项
         # 提示用户输入项
-        change_item = input("请选择您要修改的项目>>>:") # 3
-        change_value = input("请输入您要修改的值>>>:")  # 输入不限制格式
+        change_item = input("请选择您要修改的项目>>>:".strip()) # 3
+        change_value = input("请输入您要修改的值>>>:".strip())  # 输入不限制格式
 
         print("\033[42;1m%s\033[0m" % user_info)  # 打印用户信息
 
@@ -272,3 +243,33 @@ def log_out():
     print("\033[31;1mGoodBye!\033[0m".center(50,'-'))
     exit()
 
+
+def run():
+
+    msg = u'''
+    \033[32;1m------------操作选项----------
+    1、查询用户信息
+    2、增加用户
+    3、修改用户信息
+    4、删除用户
+    5、退出
+    \033[0m
+        '''
+
+    msg_dic = {
+        '1':"select()",
+        '2':"add()",
+        '3':"update()",
+        '4':"delete()",
+        '5':"log_out()"
+    }
+    go_flag = True
+    while go_flag:
+        print(msg)
+        user_choice = input("\033[35;1m请输入您的选择>>>:\033[0m".strip())
+
+        if user_choice in msg_dic:
+            go_flag = eval(msg_dic[user_choice])
+
+        else:
+            print("\033[43;1m您输入的选项有误，请重新输入！\033[0m")

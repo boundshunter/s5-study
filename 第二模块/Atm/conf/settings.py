@@ -22,8 +22,8 @@ LOG_DATABASE = {
 LOG_LEVEL = logging.INFO
 
 LOG_TYPES = {
-    'transaction': 'transactions.log',
-    'access': 'access.log',
+    'transaction': 'transactions.logs',
+    'access': 'access.logs',
 }
 
 TRANSACTION_TYPE = {

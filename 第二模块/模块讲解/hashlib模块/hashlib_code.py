@@ -10,7 +10,7 @@ m.update(b'Hello')
 print(m.hexdigest())
 m.update(b"It's me")
 print(m.hexdigest()) # 加密的是 Hello it's me
-# m.update(b"it's me a log time")
+# m.update(b"it's me a logs time")
 # print(m.hexdigest())
 
 m2=hashlib.md5()

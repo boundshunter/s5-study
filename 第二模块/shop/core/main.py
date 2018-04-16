@@ -2,12 +2,13 @@
 #-*- coding:utf-8 -*-
 # Author:summer_han
 
-# import os
+import os
 import sys
 import datetime
-import re
-# BASE_DIR = os.path.dirname( os.path.dirname( os.path.abspath(__file__)))
-# sys.path.append(BASE_DIR)
+import subprocess
+
+BASE_DIR = os.path.dirname( os.path.dirname( os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
 
 from core import auth
 from core import accounts
@@ -21,6 +22,10 @@ user_data = {
     'is_authorized':None,
     'account_data':None
 }
+
+# 支付接口调用 方式
+atm_api = os.path.dirname(BASE_DIR) + "/Atm/api/pay_api.py"
+
 
 def userLogin():
     '''
@@ -37,7 +42,6 @@ def userLogin():
     # 判断用户数据是否为空 非空 则 返回用户数据
     if acc_data is not None:
         user_data['account_data'] = acc_data
-        # user_data['is_authorized'] = yes
         return user_data
     else:
         exit()
@@ -117,7 +121,6 @@ def interactive():
         #  根据用户输入选项 进入 登录，注册，退出 流程
         if choice in menu_dic:
             flag = eval(menu_dic[choice])
-            # print('flag---------------',flag)
             return True
         else:
             print("\033[35;1m输入选项有误，请重新运行程序\033[0m")
@@ -125,8 +128,7 @@ def interactive():
 
 def go_shopping():
     '''
-    购物流程:1、根据用户输入，返回物品列表，2、加入购物车之前判断用户余额，余额充足直接扣款，扣款后提示剩余余额
-    3、余额不足则提示充值，充值调用ATM接口（调用接口为本次实现关键）
+    购物流程，选择品类之后进入二级详细商品列表进行购物
     :return:
     '''
     # 购物开始
@@ -141,15 +143,21 @@ def go_shopping():
         '2':'listL2()',
         '3':'listL3()'
     }
+
     go_flag = True
     while  go_flag:
+        # 显示商品类别
         print("\033[35;1m%s\033[0m" % shopList1)
         print("\033[33;1m按[q]退出程序，按[b]返回上一级！\033[0m")
         Choice = input('L1请输入您的选择(编号):'.strip())
+
+        #  判断选项是否在商品类别中，存在则就行执行 下一级商品菜单展示，否则退出程序
         if Choice in shopListMenu1:
             go_flag = eval(shopListMenu1[Choice])
         elif Choice == 'q':
             sys.exit("感谢您的购物，再见！")
+
+        #  根据用户程序判断 b 返回上一级
         elif Choice == 'b':
             interactive()
         else:
@@ -164,53 +172,85 @@ def listShopcar():
     #  判断购物车是否为空
     if shopCar:  # Not None
         print(" 本次购买商品列表 ".center(40,'-'))
+
+        #  购物车非空 显示购买商品名称和价格
         for k,v in shopCar.items():
             print("    "+"商品名称："+k+" ---- "+"价格："+v)
     else:
         return None
 
-
 def listL1():
     '''
-    购物流程，显示购物车
+    购物流程，显示购物车内容，购物前判断余额是否充足，不足则提示充值，充值调用ATM接口
     :return:
     '''
+    # 获取商品列表 和 价格
     L1_Info = goods.L1_Info
     L1_Info_Dic = goods.L1_Info_Dic
 
     L1_flag = True
     while L1_flag:
 
+        # 初始化用户数据
         acc_data = user_data['account_data']
+
+        # 打印 商品列表 ，提示用户信息
         print("\033[31;1m%s\033[0m" % L1_Info)
         print("\033[33;1m输入[b] 返回上一级，输入[q] 退出程序 \033[0m")
 
+        #  进入商品购买流程
         choice = input("L2请输入您要购买的产品编号：")
-        if choice in L1_Info_Dic:
 
+        # 判断选择是否在列表中
+        if choice in L1_Info_Dic:
+            # 判断金额是否足以购买商品
             if float(L1_Info_Dic[choice][1]) > acc_data['balance']:
                 charge_YN = input("您的余额不足，是否充值,按'y'进行充值，其他任意键继续购物!".strip())
+                print("\033[41;1m请使用您的银行账号进行充值！\033[0m")
 
+                # 判断 是否 充值 'y' 为进行充值操作
                 if charge_YN == 'y':
+                    #  调用 支付 接口 充值
                     charge = input("请输入您要充值的金额:".strip())
-                    acc_data['balance'] = acc_data['balance'] + float(charge)
-                    accounts.dumpAccount(acc_data)
-                    shopCar[L1_Info_Dic[choice][0]] = L1_Info_Dic[choice][1]
-                    print("您当前余额 >>>: [ \033[42;1m%s\033[0m ] "%acc_data['balance'])
-                    #增加 记录充值 操作日志的记录, settings 行为字典，充值，花费 金额 等等
-                    # print("shopCar")
+                    #  判断输入金额是否为数字
+                    if charge.isdigit():
+
+                        #  定义  接口文件和金额
+                        comm = "python " + atm_api + " " + charge
+                        # 创建 调用进程，执行指定的comm
+                        pgm = subprocess.Popen(comm,shell=True)
+                        # 接口文件交互
+                        pgm.communicate()
+                        if pgm.returncode == 0:
+                            print("\033[31;1m付款成功\033[0m")
+                            # 充值成功后，更新用户余额
+                            acc_data['balance'] += float(charge)
+                            # 将用户余额存入账户
+                            accounts.dumpAccount(acc_data)
+                            print("您的余额为:%s"%acc_data['balance'])
+
+                        else:
+                            print("充值失败！")
+
+                    else:
+                        print("你的输入[%s]有误，请输入数字！" % charge)
+
                 else:
                     continue
 
             else:
-                #余额足够，购买对应编号商品，余额-商品金额，将购买后余额写入用户数据文件
-                acc_data['balance'] = acc_data['balance'] - float(L1_Info_Dic[choice][1])
+                # 余额足够，购买对应编号商品，余额-商品金额，将购买后余额写入用户数据文件
+                acc_data['balance'] -= float(L1_Info_Dic[choice][1])
+                # 更新后余额存入账户
                 accounts.dumpAccount(acc_data)
+                #  将购买商品加入购物列表
                 shopCar[L1_Info_Dic[choice][0]] = L1_Info_Dic[choice][1]
                 print("\n")
+                #  打印购物车
                 listShopcar()
                 print("您当前余额 >>>: [ \033[42;1m%s\033[0m ] "%acc_data['balance'])
         elif choice == 'q':
+            # 打印购物车
             listShopcar()
             sys.exit("感谢您的购物，再见！")
         elif choice == 'b':
@@ -223,46 +263,76 @@ def listL1():
 
 def listL2():
     '''
-    购物流程，显示购物车
+    购物流程，显示购物车内容，购物前判断余额是否充足，不足则提示充值，充值调用ATM接口
     :return:
     '''
+    # 获取商品列表 和 价格
     L2_Info = goods.L2_Info
     L2_Info_Dic = goods.L2_Info_Dic
 
     L2_flag = True
     while L2_flag:
 
+        # 初始化用户数据
         acc_data = user_data['account_data']
+
+        # 打印 商品列表 ，提示用户信息
         print("\033[31;1m%s\033[0m" % L2_Info)
         print("\033[33;1m输入[b] 返回上一级，输入[q] 退出程序 \033[0m")
 
+        #  进入商品购买流程
         choice = input("L2请输入您要购买的产品编号：")
-        if choice in L2_Info_Dic:
 
+        # 判断选择是否在列表中
+        if choice in L2_Info_Dic:
+            # 判断金额是否足以购买商品
             if float(L2_Info_Dic[choice][1]) > acc_data['balance']:
                 charge_YN = input("您的余额不足，是否充值,按'y'进行充值，其他任意键继续购物!".strip())
+                print("\033[41;1m请使用您的银行账号进行充值！\033[0m")
 
+                # 判断 是否 充值 'y' 为进行充值操作
                 if charge_YN == 'y':
+                    #  调用 支付 接口 充值
                     charge = input("请输入您要充值的金额:".strip())
-                    acc_data['balance'] = acc_data['balance'] + float(charge)
-                    accounts.dumpAccount(acc_data)
-                    shopCar[L2_Info_Dic[choice][0]] = L2_Info_Dic[choice][1]
-                    print("您当前余额 >>>: [ \033[42;1m%s\033[0m ] "%acc_data['balance'])
-                    #增加 记录充值 操作日志的记录, settings 行为字典，充值，花费 金额 等等
-                    # print("shopCar")
+                    #  判断输入金额是否为数字
+                    if charge.isdigit():
+
+                        #  定义  接口文件和金额
+                        comm = "python " + atm_api + " " + charge
+                        # 创建 调用进程，执行指定的comm
+                        pgm = subprocess.Popen(comm,shell=True)
+                        # 接口文件交互
+                        pgm.communicate()
+                        if pgm.returncode == 0:
+                            print("\033[31;1m付款成功\033[0m")
+                            # 充值成功后，更新用户余额
+                            acc_data['balance'] += float(charge)
+                            # 将用户余额存入账户
+                            accounts.dumpAccount(acc_data)
+                            print("您的余额为:%s"%acc_data['balance'])
+
+                        else:
+                            print("充值失败！")
+
+                    else:
+                        print("你的输入[%s]有误，请输入数字！" % charge)
+
                 else:
                     continue
 
             else:
-                #余额足够，购买对应编号商品，余额-商品金额，将购买后余额写入用户数据文件
-                acc_data['balance'] = acc_data['balance'] - float(L2_Info_Dic[choice][1])
+                # 余额足够，购买对应编号商品，余额-商品金额，将购买后余额写入用户数据文件
+                acc_data['balance'] -= float(L2_Info_Dic[choice][1])
+                # 更新后余额存入账户
                 accounts.dumpAccount(acc_data)
+                #  将购买商品加入购物列表
                 shopCar[L2_Info_Dic[choice][0]] = L2_Info_Dic[choice][1]
                 print("\n")
+                #  打印购物车
                 listShopcar()
                 print("您当前余额 >>>: [ \033[42;1m%s\033[0m ] "%acc_data['balance'])
-
         elif choice == 'q':
+            # 打印购物车
             listShopcar()
             sys.exit("感谢您的购物，再见！")
         elif choice == 'b':
@@ -275,45 +345,76 @@ def listL2():
 
 def listL3():
     '''
-    购物流程，显示购物车
+    购物流程，显示购物车内容，购物前判断余额是否充足，不足则提示充值，充值调用ATM接口
     :return:
     '''
+    # 获取商品列表 和 价格
     L3_Info = goods.L3_Info
     L3_Info_Dic = goods.L3_Info_Dic
 
     L3_flag = True
     while L3_flag:
 
+        # 初始化用户数据
         acc_data = user_data['account_data']
+
+        # 打印 商品列表 ，提示用户信息
         print("\033[31;1m%s\033[0m" % L3_Info)
         print("\033[33;1m输入[b] 返回上一级，输入[q] 退出程序 \033[0m")
 
+        #  进入商品购买流程
         choice = input("L2请输入您要购买的产品编号：")
-        if choice in L3_Info_Dic:
 
+        # 判断选择是否在列表中
+        if choice in L3_Info_Dic:
+            # 判断金额是否足以购买商品
             if float(L3_Info_Dic[choice][1]) > acc_data['balance']:
                 charge_YN = input("您的余额不足，是否充值,按'y'进行充值，其他任意键继续购物!".strip())
+                print("\033[41;1m请使用您的银行账号进行充值！\033[0m")
 
+                # 判断 是否 充值 'y' 为进行充值操作
                 if charge_YN == 'y':
+                    #  调用 支付 接口 充值
                     charge = input("请输入您要充值的金额:".strip())
-                    acc_data['balance'] = acc_data['balance'] + float(charge)
-                    accounts.dumpAccount(acc_data)
-                    shopCar[L3_Info_Dic[choice][0]] = L3_Info_Dic[choice][1]
-                    print("您当前余额 >>>: [ \033[42;1m%s\033[0m ] "%acc_data['balance'])
+                    #  判断输入金额是否为数字
+                    if charge.isdigit():
+
+                        #  定义  接口文件和金额
+                        comm = "python " + atm_api + " " + charge
+                        # 创建 调用进程，执行指定的comm
+                        pgm = subprocess.Popen(comm,shell=True)
+                        # 接口文件交互
+                        pgm.communicate()
+                        if pgm.returncode == 0:
+                            print("\033[31;1m付款成功\033[0m")
+                            # 充值成功后，更新用户余额
+                            acc_data['balance'] += float(charge)
+                            # 将用户余额存入账户
+                            accounts.dumpAccount(acc_data)
+                            print("您的余额为:%s"%acc_data['balance'])
+
+                        else:
+                            print("充值失败！")
+
+                    else:
+                        print("你的输入[%s]有误，请输入数字！" % charge)
 
                 else:
                     continue
 
             else:
-                #余额足够，购买对应编号商品，余额-商品金额，将购买后余额写入用户数据文件
-                acc_data['balance'] = acc_data['balance'] - float(L3_Info_Dic[choice][1])
+                # 余额足够，购买对应编号商品，余额-商品金额，将购买后余额写入用户数据文件
+                acc_data['balance'] -= float(L3_Info_Dic[choice][1])
+                # 更新后余额存入账户
                 accounts.dumpAccount(acc_data)
+                #  将购买商品加入购物列表
                 shopCar[L3_Info_Dic[choice][0]] = L3_Info_Dic[choice][1]
                 print("\n")
+                #  打印购物车
                 listShopcar()
-                # 增加 记录 购物历史 的 操作日志,显示购物车
                 print("您当前余额 >>>: [ \033[42;1m%s\033[0m ] "%acc_data['balance'])
         elif choice == 'q':
+            # 打印购物车
             listShopcar()
             sys.exit("感谢您的购物，再见！")
         elif choice == 'b':
@@ -324,12 +425,14 @@ def listL3():
             print("L2您输入的产品编号有误，请重新输入")
             continue
 
+
+
 def run():
     '''
     主程序运行入口
     :return:
     '''
+    # 用户交互 入口
     interactive()
-    # 登录成功后，拿到用户信息，登录失败后，用户信息为None
-    print("交互",user_data)
+    #  登录成功后，拿到用户信息，登录失败后，用户信息为None，成功进入购物流程
     go_shopping()

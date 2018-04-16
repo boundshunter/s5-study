@@ -9,12 +9,13 @@
 
 from conf import settings
 
+# 数据引擎入口
 def db_handler(conn_params):
     '''
     文件存储目录和路径
     :param conn_params:
     :return:
     '''
+    #  返回用户存储目录
     db_path = "%s%s"% (conn_params['path'],conn_params['name'])
-    # print(db_path)
     return db_path

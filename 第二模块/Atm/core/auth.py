@@ -193,6 +193,7 @@ def display_account_info(account_data):
     '''
     account_data['password']=get_md5(account_data['password'].encode("utf-8")) # 用户密码加密
     for k in account_data:
+        # 格式化输出结果，k,account_data[k] 间隔20个空格，以':' 分隔
         print("{:<20}:\033[32;1m{:<20}\033[0m".format(k,account_data[k]))
     return True
 

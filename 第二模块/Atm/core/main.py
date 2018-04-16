@@ -227,11 +227,11 @@ def display_bills(acc_data):
         print("账户 [\033[32;1m%s\033[0m] 账单:".center(60,'-') % acc_data["account_id"])
         with open(bill_file,'r') as f:
             for bill in f:
-                print("for bills:",bill)
+                # print("for bills:",bill)
                 bill_date = bill.split(' ')[1]  # 取账单月份
-                print(bill_date)
+                # print(bill_date)
 
-                # 核对查询月份
+                # 核对查询月份,打印相应账单信息
                 if check_date == bill_date:
                     print("\033[33;1m%s\033[0m" % bill.strip())
 
@@ -380,7 +380,7 @@ def get_user_bill(account_id):
         print("\033[31;1mToday is not the bill generation day!\033[0m")
         # return    # 此处为了演示，先注释
 
-    # 判断额度，决定是否提示还款
+    # 判断额度，判定是否提示还款
     if balance >= credit:
         repay_amount = 0
         bill_info = "Account [\033[32;1m%s\033[0m] needn't to repay." % account_id
@@ -402,21 +402,24 @@ def get_all_bills():
     :return:
     '''
     db_path = db_handler.db_handler(settings.DATABASE)
-
+    # 获取路径，目录，文件名称
     for root, dirs, files in os.walk(db_path):
         print("root:%s, dirs:%s files:%s" % (root,dirs,files))
         for f in files:
+            # 判断是否存在.json结尾的文件
             if os.path.splitext(f)[1] == ".json":
+                # 获取账户ID
                 account_id = os.path.splitext(f)[0]  # 帐户id
                 # account_file = "%s/%s.json" % (db_path, account_id)
                 # account_data = auth.check_account(account_id)  # 获取用户信息
                 account_data = auth.ck_acc_data(account_id)
+                # 判断用户权限是否为管理员
                 if account_data:
                     status = account_data['status']
                     # print(status)
                     print("Account bill:".center(50, "-"))
 
-                # 除了管理员，普通帐户都应该出帐单，即使帐户禁用
+                    # 除了管理员，普通帐户都应该出帐单，即使帐户禁用
                     if status != 8:
                         # print("status != 8 ",account_id)
                         auth.display_account_info(account_data)
@@ -450,10 +453,10 @@ def run():
     '''
     print("\033[31;1m ATM用户菜单 \033[0m".center(50,'#'))
     user_data = get_user_data()
-    # interactive(user_data)
-    # print("run",user_data)
+
     if user_data:  # 判断用户数据返回非空
         acc_data = user_data['account_data']
+        # 执行用户交互
         interactive(acc_data)  # account_data
     else:
         exit()

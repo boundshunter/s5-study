@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 # Author:summer_han
-
+'''
 import os
 #显示当前目录下 文件和目录列表
 os.system("dir") # 输出结果到拼命
@@ -74,21 +74,21 @@ b'/bin/sh: 110: command not found\n'
 
 # 检测执行时间较长的程序，如果执行完了，返回0,执行不完返回None
 # 不等待结果返回，没执行完直接返回None
-#测试
-p=subprocess.Popen("sleep 10;echo 'Hello'",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-print(p.poll())
+# #测试
+# p=subprocess.Popen("sleep 10;echo 'Hello'",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+# print(p.poll())
+#
+# # 等到结果的返回，结果返回后结束
+# print(p.wait())
 
-# 等到结果的返回，结果返回后结束
-print(p.wait())
 
-
+import  subprocess
 
 # cwd 设置在哪个目录下执行ls命令，返回结果输出为目录下的文件列表 ,**** 不用cd到某个目录下了。
 p=subprocess.Popen("ls",shell=True,stdout=subprocess.PIPE,cwd='/tmp')
 p.stdout.read()
 
-
-
-
-
-
+'''
+import datetime
+aa=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+print(aa)

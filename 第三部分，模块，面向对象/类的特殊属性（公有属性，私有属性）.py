@@ -18,5 +18,6 @@ def get_privite(self):
 # Role 类名，privitename 私有属性名
 r1._Role__privitename
 
+# 类里面定义的属性即是 公有属性
 
 

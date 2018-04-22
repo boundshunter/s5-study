@@ -27,6 +27,9 @@ class SchoolMember(object):
         '''
         print("离职人员或开出人员[%s]"%self.name)
         SchoolMember.member -= 1
+class SchoolBranch(object):
+    def open_branch(self,area):
+        print("A new school branch in %s" % area )
 
 class Teacher(SchoolMember):
     '''
@@ -42,7 +45,7 @@ class Teacher(SchoolMember):
     def teaching(self):
         print("Teacher [%s] teaching [%s]"%(self.name,self.course))
 
-class Student(SchoolMember):
+class Student(SchoolMember,SchoolBranch):
     '''
     学生类
     '''
@@ -58,19 +61,47 @@ class Student(SchoolMember):
         print("Student [%s]'s fee is %s study [%s] need to pay [%s]"%(self.name,self.fee,self.course,amount))
         self.amount += amount
 
-# t1 = Teacher("jfsu",33,"M",30000,"PY-14")
-# s1 = Student('litao',25,'M',12000,"PY-15")
-# s2 = Student('wanglu',23,'F',11000,"PY-13")
-#
-# t1.call()
-# s1.call()
-#
-# print(SchoolMember.member) # 打印人员数量
-#
-# del s1
-# print(SchoolMember.member) # 打印人员数量
+t1 = Teacher("jfsu",33,"M",30000,"PY-14")
+s1 = Student('litao',25,'M',12000,"PY-15")
+s2 = Student('wanglu',23,'F',11000,"PY-13")
+
+t1.call()
+s1.call()
+s2.open_branch("SH")  # student 实现多继承，继承schoolmember和school branch
+print(SchoolMember.member) # 打印人员数量
+
+del s1
+print(SchoolMember.member) # 打印人员数量
 
 # 新式类 和 经典类 写法
-SchoolMember.__init__(self,name,age,sex)  # 经典类写法
+# SchoolMember.__init__(self,name,age,sex)  # 经典类写法
+#
+# super(Student,self).__init__(name,age,sex) # 新式类写法
 
-super(Student,self).__init__(name,age,sex) # 新式类写法
+# 新式类 经典类 写法
+
+# object 就是基类
+class stu(object): # new style
+    super
+class stu: # 经典类
+
+# 继承顺序  python3 和 python2 不同
+
+python3 中查询术语； python3 中 广度查找 ，先找同级 （ 新式类和经典类 相同）
+
+python2 中查询属于： python2 中 深度查询，每级找一个 （ python2 中经典用深度查询，新式类用广度查询）
+
+何谓广度查询，深度查询
+实例：
+                     A
+         B                       C
+                     D
+
+D 继承 B,C
+B,C都继承A， B在左，C在右
+
+广度查询继承关系，D先找自己，没有找B，在没有找C，在没有找A （ python3 经典类和新式类，python2 中新式类）
+
+深度查询关系,D先找自己，没有找B，在没有找A，在没有找C ( python2 中 经典类)
+
+

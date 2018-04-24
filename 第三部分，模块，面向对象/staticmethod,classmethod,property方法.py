@@ -48,6 +48,36 @@ Dog.eating("a","b")
     # @property
     # 把一个方法变成一个静态属性 （属性不能加() 调用）
     # 作用就是隐藏实现细节，对用户来讲只是简单调用
+class Foo:
+    def __init__(self,name):
+        self.name = name
+        self.__food = None
+
+    @property
+    def eat(self):
+        print("%s is eating %s"%(self.name,self.__food))
+
+    @eat.setter
+    def eat(self,food):
+        print("set to food:",food)
+        self.__food = food
+
+    @eat.deleter
+    def eat(self):
+        del self.__food
+        print("删除完了")
+
+b = Foo("li chuang")
+b.eat
+b.eat = "baozi"
+b.eat # 再次调用 包子传给 self.__food，__food在eat的setter中定义，得到值调用
+
+
+
+
+
+'''
+
 # 航班查询
 class Flight(object):
     def __init__(self,name):
@@ -105,10 +135,10 @@ class Flight(object):
     @flight_status.setter #修改
     def flight_status(self,status):
         status_dic = {
-: "canceled",
-:"arrived",
-: "departured"
-        }
+           '0' : "canceled",
+           '1' : "arrived",
+           '2' : "departured"
+                    }
         print("\033[31;1mHas changed the flight status to \033[0m",status_dic.get(status) )
 
     @flight_status.deleter  #删除
@@ -119,3 +149,5 @@ f = Flight("CA980")
 f.flight_status
 f.flight_status =  2 #触发@flight_status.setter
 del f.flight_status #触发@flight_status.deleter
+
+'''

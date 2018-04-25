@@ -12,8 +12,6 @@ class Dog:
     def eat(self,food):
         print("%s is eating %s"%(self.name,food))
 
-
-
 d = Dog("dahuang")
 
 choice = input(">>>:")
@@ -47,5 +45,10 @@ else:
     setattr(d,choice,None) # 为False ，set值
     v = getattr(d,choice) # set之后再get ，然后打印
     print(v)
+
+
+# 处理不固定参数，用来赋值，将输入的choice 付给 方法名
+func = getattr(d,choice)
+func(d) # d = self
 
 

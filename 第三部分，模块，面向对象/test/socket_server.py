@@ -3,15 +3,18 @@
 # Author:summer_han
 
 import socket
+import os
+
 server = socket.socket()
-server.bind(('127.0.0.1',6868))
-server.listen()
+server.bind(('127.0.0.1',8888))
+server.listen(5)
 
-print("开始等待接收")
-conn,addr = server.accept() # 等待连接请求
-print(conn,'\033[42;1m分隔符\033[0m',addr)
-print("接收内容")
+while True:
+    print("\033[35;1m开始等待\033[0m")
+    conn,addr = server.accept() # 等待接收
+    print("\033[33;1m数据进入:\033[0m%s"%conn)
+    while True:
+        data = conn.recv(1024)
+        server.send(data)
+server.close()
 
-data = conn.recv(1024)
-print('server recv:',data)
-conn.send(data.upper())

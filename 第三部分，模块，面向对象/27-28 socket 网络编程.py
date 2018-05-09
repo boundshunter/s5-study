@@ -52,5 +52,7 @@ while True:
 #
 # server.close() # 关闭连接
 
-
+import subprocess
+import os
+os.popen('aa',mode='r',bufsize=1).read()
 

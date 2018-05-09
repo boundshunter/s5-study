@@ -3,15 +3,13 @@
 # Author:summer_han
 
 import socket
+client = socket.socket()
+client.connect(('127.0.0.1',8888))
 
-client = socket.socket() # 声明socket 类型，同时建立链接对象
-client.connect(('localhost',6868))
+while True:
+    msg = input(">>:".strip())
+    if len(msg) == 0: continue
+    client.send(msg.encode("utf-8"))
+    client.recv(10240)
 
-client.send(b'hello world')
-
-
-
-data = client.recv(1024)
-
-print(data)
 client.close()

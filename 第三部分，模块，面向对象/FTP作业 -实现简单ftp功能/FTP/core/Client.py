@@ -1,3 +1,8 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 # Author:summer_han
+
+class ftpClient:
+    pass
+
+

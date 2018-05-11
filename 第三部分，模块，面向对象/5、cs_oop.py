@@ -22,8 +22,8 @@ class Role(object):
     def buy_gun(self,gun_name):
         print("%s just bought %s" %(self.name,gun_name))
 
-    def __del__(self): #析构函数就是用来做垃圾回收 ,做程序的首位工作，提示关闭连接回收空间
-        print("del....run....")
+    def __del__(self): #析构函数就是用来做垃圾回收 ,做程序的收尾工作，提示关闭连接回收空间
+        print("del....run....",self.name)
 # 实例化 ，生成r1,r2的过程就是实例化的过程
 r1 = Role('Alex','police','AK47')  # 生成一个角色 Role(r1,'Alex','police','AK47')
 r2 = Role('Jack','terrorist','B22') # 生成一个角色
@@ -49,8 +49,8 @@ print(r2.nationality) # 调用更改后公有属性
 
 
 # 析构 ，析构函数就是用来做垃圾回收
-del r1
+# del r1
 r1.shot()
 
-del r1 为析构r1， 析构其实就是删除这个变量到这个函数的引用关系，并没有删除和释放内存空间只相当于把门牌号摘掉了
-python 的内存刷新机制，一段时间就去做垃圾回收，（清理没有门牌号的内存数据）
+# del r2  #为析构r1， 析构其实就是删除这个变量到这个函数的引用关系，并没有删除和释放内存空间只相当于把门牌号摘掉了
+        #python 的内存刷新机制，一段时间就去做垃圾回收，（清理没有门牌号的内存数据）

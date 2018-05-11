@@ -36,7 +36,7 @@ class Teacher(SchoolMember):
     老师类
     '''
     def __init__(self,name,age,sex,salary,course):
-        SchoolMember.__init__(self,name,age,sex)
+        SchoolMember.__init__(self,name,age,sex)  # 老师继承 SchoolMember 类
         self.salary = salary
         self.course = course
         self.teaching()
@@ -103,5 +103,4 @@ B,C都继承A， B在左，C在右
 广度查询继承关系，D先找自己，没有找B，在没有找C，在没有找A （ python3 经典类和新式类，python2 中新式类）
 
 深度查询关系,D先找自己，没有找B，在没有找A，在没有找C ( python2 中 经典类)
-
 

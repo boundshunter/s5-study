@@ -32,11 +32,11 @@ class Teacher(SchoolMember):
     老师类
     '''
     def __init__(self,name,age,sex,salary,course):
-        SchoolMember.__init__(self,name,age,sex)
+        SchoolMember.__init__(self,name,age,sex) # 继承
         self.salary = salary
         self.course = course
-        self.teaching()
-        SchoolMember.member += 1
+        self.teaching() # 方法内部调用
+        SchoolMember.member += 1 # 人员数+1
 
     def teaching(self):
         print("Teacher [%s] teaching [%s]"%(self.name,self.course))
@@ -63,8 +63,11 @@ s2 = Student('wanglu',23,'F',11000,"PY-13")
 
 t1.call()
 s1.call()
-
+s2.call()
+t1.teaching()
+# s2.pay_amount(1)
+#
 print(SchoolMember.member) # 打印人员数量
-
-del s1
-print(SchoolMember.member) # 打印人员数量
+#
+# del s1
+# print(SchoolMember.member) # 打印人员数量

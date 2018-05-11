@@ -5,27 +5,26 @@
 # 静态方法：
 # @staticmethod
 
-class Dog:
-    def __init__(self,name):
-        self.NAME=name
-
-    def eating(self,food):
-        print("%s is eating %s"%(self.NAME,food))
-
-d = Dog("chenronghua")
-d.eating("包子")
-
-#加入静态方法之后，剥离和类的关系，只是单纯的是类下面的一个函数，跟类没什么关系，不会自动传入self
+# class Dog:
+#     def __init__(self,name):
+#         self.NAME=name
 #
-class Dog:
-    def __init__(self,name):
-        self.NAME=name
-    @staticmethod  # 实际上跟类没什么关系了，只是调用的时候需要使用类名
-    def eating(self,food): # self被当做一个参数，实际上eating已经变成一个独立的函数
-        print("%s is eating %s"%(self,food))
-
-Dog.eating("a","b")
-
+#     def eating(self,food):
+#         print("%s is eating %s"%(self.NAME,food))
+#
+# d = Dog("chenronghua")
+# d.eating("包子")
+#
+# #加入静态方法之后，剥离和类的关系，只是单纯的是类下面的一个函数，跟类没什么关系，不会自动传入self
+# class Dog:
+#     def __init__(self,name):
+#         self.NAME=name
+#     @staticmethod  # 实际上跟类没什么关系了，只是调用的时候需要使用类名
+#     def eating(self,food): # self被当做一个参数，实际上eating已经变成一个独立的函数
+#         print("%s is eating %s"%(self,food))
+#
+# Dog.eating("a","b")
+# a is eating b
 
 # 静态方法 总结 （用户 ，很少，几乎没有）
     #·只是名义上的归类管理，但是在静态方法中访问不了类或实例中的任何属性
@@ -42,7 +41,7 @@ Dog.eating("a","b")
 
 '''
 ------------------------------------------------------------------------------------------------------------
-'''
+
 
 # 属性方法
     # @property
@@ -73,10 +72,10 @@ b.eat = "baozi"
 b.eat # 再次调用 包子传给 self.__food，__food在eat的setter中定义，得到值调用
 
 
+#
 
 
 
-'''
 
 # 航班查询
 class Flight(object):
@@ -86,7 +85,7 @@ class Flight(object):
 
     def checking_status(self):
         print("checking flight %s status " % self.flight_name)
-        return  1
+        return  3
 
     @property
     def flight_status(self):
@@ -106,10 +105,11 @@ f.flight_status
 
 f = Flight("CA980")
 f.flight_status
-f.flight_status =  2
-??  不能修改？ 看下面
-
-############
+# f.flight_status =  2
+# # ??  不能修改？ 看下面
+#
+# ############
+'''
 class Flight(object):
     def __init__(self,name):
         self.flight_name = name
@@ -150,4 +150,4 @@ f.flight_status
 f.flight_status =  2 #触发@flight_status.setter
 del f.flight_status #触发@flight_status.deleter
 
-'''
+# '''

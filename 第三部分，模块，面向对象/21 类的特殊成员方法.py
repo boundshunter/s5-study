@@ -27,8 +27,8 @@ class C:
 from lib.aa import C
 
 obj = C()
-print obj.__module__  # 输出 lib.aa，即：输出模块
-print obj.__class__      # 输出 lib.aa.C，即：输出类
+print(obj.__module__)  # 输出 lib.aa，即：输出模块
+print(obj.__class__)      # 输出 lib.aa.C，即：输出类
 3. __init__ 构造方法，通过类创建对象时，自动触发执行。
 
 4.__del__
@@ -95,7 +95,7 @@ print obj
 # 输出：alex li
 8.__getitem__、__setitem__、__delitem__
 
-用于索引操作，如字典。以上分别表示获取、设置、删除数据
+# 用于索引操作，如字典。以上分别表示获取、设置、删除数据
 
 class Foo(object):
 

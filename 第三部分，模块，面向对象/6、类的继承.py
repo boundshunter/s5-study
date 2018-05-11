@@ -22,7 +22,7 @@ oop开发范式：
 
 
 # 继承示例：
-# 没重新就继承父类，重写就使用自己的子类函数
+# 没重写就继承父类，重写就使用自己的子类函数
 # class Persion(object):
 #
 #     def talk(self):
@@ -50,13 +50,13 @@ class person(object):
 
 class Blackman(person):
     def __init__(self,name,age,strength): # 先继承，再重构
-        person.__init__(self,name,age)  # 继承
+        person.__init__(self,name,age)  # 继承 name age
 
         self.strength = strength  # 重构
         print(self.name,self.age,self.sex,self.strength)
 
     def run(self):
-        print("blackman running faster....")
+        print("%s running faster...."%self.name)
 
 class Whiteman(person):
     def __init__(self,name,age,swim): # 先继承，在重构

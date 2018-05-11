@@ -119,17 +119,17 @@ obj.f3(arg1,arg2,arg3)
     ·类中封装了字段和方法
     ·对象封装了：普通属性（字段）的值
 
-    class F1:
-        def __init__(self,n):
-            self.N = n
-            print("F1")
-    class F2:
-        def __init__(self,arg1):
-            self.a = arg1
-            print('F2')
-    class F3:
-        def __init__(self,arg2):
-            self.a = arg2
-            print("F3")
+class F1:
+    def __init__(self,n):
+        self.N = n
+        print("F1")
+class F2:
+    def __init__(self,arg1):
+        self.a = arg1
+        print('F2')
+class F3:
+    def __init__(self,arg2):
+        self.a = arg2
+        print("F3")
 
 

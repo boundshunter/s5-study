@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
-# Author:summer_han
+__author__ = 'jfsu'
 
-import os
 import sys
+import os
 
 BASE_DIR = os.path.dirname( os.path.dirname( os.path.abspath(__file__) ) )
 sys.path.append(BASE_DIR)
+from core import Server
 
-from core import main
-
-#  ATM 管理员入口
 if __name__ == '__main__':
-    main.manager_run()
+    fs = Server.ftpServer()
+

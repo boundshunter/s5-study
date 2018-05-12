@@ -15,6 +15,7 @@ class users:
 
     def read_users(self):
         with open(self.users_file,'r') as f:
+            print(self.users_file)
             users = eval(f.read())
         return users
 
@@ -24,3 +25,9 @@ class users:
 
     def get_user(self,username):
         for user in self.users:
+            print(user)
+            if user['username'] == username:
+                return user
+
+    # def user_regist(self,username):
+

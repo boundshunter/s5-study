@@ -73,6 +73,6 @@ class ftpClient:
                     while send_file_size != total_size:
                         # 如果总大小 - 已发送大小 小于等于 1024，说明一次剩下的一次可以发送完毕
                         if total_size - send_file_size <= 1024:
-
+111
 
 

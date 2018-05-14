@@ -51,6 +51,7 @@ class ftpClient:
             else:
                 print("command not found,please input again.")
                 continue
+
     def put(self,cmd):
         print(cmd)
         put_file_name = cmd[1]
@@ -73,6 +74,36 @@ class ftpClient:
                     while send_file_size != total_size:
                         # 如果总大小 - 已发送大小 小于等于 1024，说明一次剩下的一次可以发送完毕
                         if total_size - send_file_size <= 1024:
-111
+                            data = f.read(total_size-send_file_size)
+                            send_file_size = total_size
+                        else:
+                            data = f.read(1024)
+                            send_file_size += len(data)
+                        self.client.send(data.encode())
+                print("Upload success complete.")
+        else:
+            print("The upload file not found")
+
+    def ls(self,cmd):
+        print(cmd[0])
+        client_send_to_server_info = "%s"% cmd[0]
+        self.client.send(client_send_to_server_info.encode())
+        server_back = self.client.recv(1024).decode()
+        print("server back result:\n",server_back) # 返回命令结果的大小
+        self.client.send("ok".encode()) # 发送ok 确定可以收了
+        recv_size = 0
+        recv_data = b""
+        while recv_size < int(server_back):
+            data = self.client.recv(1024)
+            recv_data = data
+            recv_size += len(data)
+            print(recv_size)
+        else:
+            print(recv_data.decode())
+
+    def help(self,cmd):
+        if len(cmd) == 1:
+            for k,v in self.help.items():
+                print("%s : %s"% (k,v))
 
 

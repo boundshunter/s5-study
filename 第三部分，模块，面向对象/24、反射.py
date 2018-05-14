@@ -9,11 +9,11 @@ class Dog:
     def __init__(self,name):
         self.name = name
 
-    def eat(self,food):
-        print("%s is eating %s"%(self.name,food))
+    def eat(self):
+        print("%s is eating"%(self.name))
 
-d = Dog("dahuang") # 实例化
-d.eat('shit')
+# d = Dog("dahuang") # 实例化
+# d.eat('shit')
 choice = input(">>>:") # 等待输入
 # d.eat("shi")
 #hasattr(obj,name_str) # 返回True 和 False 存在方法属性则返回True,不存在返回False
@@ -23,7 +23,9 @@ choice = input(">>>:") # 等待输入
 
 if hasattr(d,choice):
     func = getattr(d,choice)
-    func("gou shi") # 传入 food 值  func 相当于 调用d.eat  d对象中的方法
+
+    d.eat()
+    # func() # 传入 food 值  func 相当于 调用d.eat  d对象中的方法
 
 else:
     # setattr(x,'y',v) # 动态的将一个外部方法装配到类中调用 相当于  x,y = v

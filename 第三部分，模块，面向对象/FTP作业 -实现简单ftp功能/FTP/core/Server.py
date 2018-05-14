@@ -31,8 +31,8 @@ class ftpServer:
                 action = res[0] # 接收执行动作
 
                 if hasattr(self,action): # 反射
-                    foo = getattr(self,action) # 存在获取执行动作
-                    foo(res) # 少解释***************************************************************
+                    fc = getattr(self,action) # 存在获取执行动作
+                    fc(res) # fc 相当于先对对象实例化，然后实例化后调用传入的方法action，然后在执行action方法，需要传入参数传入参数，只有self则不传入参数
                 else:
                     print("输入错误")
 
@@ -50,5 +50,35 @@ class ftpServer:
                 self.conn.send(b'password is wrong')
         else:
             self.conn.send(b'%s is not exist'%cmd[1])
+
+    def put(self,cmd):
+        # 文件完整路径
+        file_name = self.user_home+self.curr_path+cmd[1]
+        # 文件总大小为传入的值，传入的命令样式 "put filename size"
+        total_size = cmd[2]
+        # 传入文件写入
+        with open(file_name,'wb') as f:
+            self.conn.send('200'.encode())
+            recv_size = 0
+            # 判断如果 收到的大小比总大小，就一直循环收
+            while recv_size < int(total_size):
+                data = self.conn.recv(1024)
+                recv_size += len(data)
+                # 收完写入文件
+                f.write(data)
+            else:
+                print("\033[41[1maction：put,server received complete\033[0m")
+
+    def ls(self,cmd):
+        print(cmd[0])
+        user_path = self.user_home+self.curr_path
+        print(user_path)
+        res = os.popen("%s %s"% (cmd[0],user_path)).read()
+        print(res)
+        if len(res) == 0:
+            res = "command's result is empty.there is no file or directory in %s"% (user_path)
+        self.conn.send(res.encode())
+        self.conn.recv(1024)
+        self.conn.send(res.encode())
 
 

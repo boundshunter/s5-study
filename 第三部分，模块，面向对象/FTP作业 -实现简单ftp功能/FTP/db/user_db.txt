@@ -2,6 +2,6 @@
     {
         "username":"jfsu",
         "password":"abc",
-        "home":"/home/jfsu",
+        "home":"/home/sujunfeng",
     }
 ]

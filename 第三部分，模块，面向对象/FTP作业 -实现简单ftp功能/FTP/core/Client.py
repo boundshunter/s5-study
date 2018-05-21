@@ -84,9 +84,9 @@ class ftpClient:
         else:
             print("The upload file not found")
 
-    def ls(self,cmd):
+    def dir(self,cmd):
         print(cmd[0])
-        client_send_to_server_info = "%s"% cmd[0]
+        client_send_to_server_info = "%s"% cmd[0] # send ls
         self.client.send(client_send_to_server_info.encode())
         server_back = self.client.recv(1024).decode()
         print("server back result:\n",server_back) # 返回命令结果的大小

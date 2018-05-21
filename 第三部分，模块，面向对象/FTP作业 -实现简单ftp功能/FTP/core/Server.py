@@ -28,11 +28,12 @@ class ftpServer:
                     break
                 # 数据不为空，继续执行
                 res = self.data.decode().split() # py3 中每一步都接收和发送都需要转码
-                action = res[0] # 接收执行动作
-
+                action = res[0] # 获取接收执行动作
+                print("start:",action)
                 if hasattr(self,action): # 反射
                     fc = getattr(self,action) # 存在获取执行动作
                     fc(res) # fc 相当于先对对象实例化，然后实例化后调用传入的方法action，然后在执行action方法，需要传入参数传入参数，只有self则不传入参数
+                    fc('ls') # d = obj()   d.ls('ls')
                 else:
                     print("输入错误")
 
@@ -70,15 +71,16 @@ class ftpServer:
                 print("\033[41[1maction：put,server received complete\033[0m")
 
     def ls(self,cmd):
-        print(cmd[0])
-        user_path = self.user_home+self.curr_path
-        print(user_path)
+
+        user_path = self.user_home
+        print('\033[42;1maaa\033[0m',(user_path,cmd[0]))
+
         res = os.popen("%s %s"% (cmd[0],user_path)).read()
-        print(res)
+        print("\033[42;1mbbb:\033[0m",res)
         if len(res) == 0:
             res = "command's result is empty.there is no file or directory in %s"% (user_path)
         self.conn.send(res.encode())
-        self.conn.recv(1024)
-        self.conn.send(res.encode())
+        # self.conn.recv(1024)
+        # self.conn.send(res.encode())
 
 

@@ -8,3 +8,6 @@
 2017-01-28 10:32:07,465 - shopping - INFO - account:test action:shopping product_number:2 goods:Coffee cost:60
 2017-01-28 10:32:20,656 - shopping - INFO - account:test action:shopping product_number:1 goods:Iphone7 cost:6188
 2017-02-04 20:18:37,377 - shopping - INFO - account:test action:shopping product_number:3 goods:Tea cost:933
+2018-04-13 13:41:57,856 - shopping - INFO - account:test action:shopping product_number:1 goods:Iphone7 cost:6188
+2018-04-13 13:43:29,383 - shopping - INFO - account:test action:shopping product_number:1 goods:Coffee cost:30
+2018-04-13 13:43:57,696 - shopping - INFO - account:test action:shopping product_number:1 goods:Tea cost:341

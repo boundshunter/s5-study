@@ -22,7 +22,7 @@ for line in f:
 #with 防止打开文件忘记关闭
 #为了避免打开文件忘记关闭，可以通过管理上下文，即：
 '''
-with open('log','r') as f:
+with open('logs','r') as f:
     ...
 如此方式，当with 代码块执行完毕时，内部会自动关闭释放文件资源
 

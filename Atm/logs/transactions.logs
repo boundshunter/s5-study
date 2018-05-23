@@ -1,5 +1,0 @@
-2018-04-15 15:39:41 - transaction - INFO - accounts:1002   action:withdraw   amount:100.0   interest:5.0 
-2018-04-15 15:40:17 - transaction - INFO - accounts:1002   action:pay   amount:10000.0   interest:0.0 
-2018-04-15 16:26:40 - transaction - INFO - accounts:1002   action:pay   amount:1000.0   interest:0.0 
-2018-04-15 16:35:44 - transaction - INFO - accounts:1002   action:pay   amount:100.0   interest:0.0 
-2018-04-15 18:06:56 - transaction - INFO - accounts:1002   action:pay   amount:3000.0   interest:0.0 

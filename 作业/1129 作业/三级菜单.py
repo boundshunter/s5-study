@@ -34,10 +34,11 @@ menu_data = {
 import sys
 import os
 BASE_DIR = os.path.dirname(__file__)
+print(BASE_DIR)
 DICT_DIR = os.path.join(BASE_DIR,'dict.txt')
 
-if os.path.exists(DICT_DIR):
-    os.remove(DICT_DIR)
+# if os.path.exists(DICT_DIR):
+#     os.remove(DICT_DIR)
 
 # 字典以字符串形式写入文件
 with open('dict.txt','a',encoding="utf-8") as f:
